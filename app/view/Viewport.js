@@ -1,15 +1,24 @@
 Ext.define('PWApp.view.Viewport', {
     extend: 'Ext.container.Viewport',
     requires:[
-        'Ext.layout.container.Fit',
-        'PWApp.view.Main'
+        'Ext.layout.container.Border'
     ],
 
     layout: {
-        type: 'fit'
+        type: 'border'
     },
 
-    items: [{
-        xtype: 'app-main'
-    }]
+    items: [
+        {
+            xtype: 'panel',
+            region: 'south',
+            collapsible: true,
+            split: true,
+            height: 200
+        },
+        {
+            xtype: 'mapview',
+            region: 'center'
+        }
+    ]
 });

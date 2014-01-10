@@ -3,15 +3,9 @@ Ext.define('PWApp.Application', {
 
     extend: 'Ext.app.Application',
 
-    views: [
-        // TODO: add views here
-    ],
+    views: [ 'MapView' ],
 
-    controllers: [
-        // TODO: add controllers here
-    ],
+    controllers: [ ],
 
-    stores: [
-        // TODO: add stores here
-    ]
+    stores: [ ]
 });

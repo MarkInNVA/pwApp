@@ -4,10 +4,20 @@
     Sencha Cmd when upgrading.
 */
 
+Ext.Loader.setConfig({
+	enabled: true,
+	paths: {
+		'Ext.ux' : 'app/ux'
+	}
+});
+
+
 Ext.application({
     name: 'PWApp',
 
     extend: 'PWApp.Application',
+
+   requires: ['Ext.ux.AGC'],
     
     autoCreateViewport: true
 });
