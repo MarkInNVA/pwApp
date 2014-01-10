@@ -135,7 +135,7 @@ var tMSLayer = new esri.layers.ArcGISTiledMapServiceLayer( "http://eerscmap.usgs
  			// renderer.addValue("Shale", dfsShale);
       var renderer = new esri.renderer.SimpleRenderer(dfsCoal)
  			mac.setRenderer(renderer);
-      mac.setScaleRange(288895.277144, 36111.909643);
+      mac.setScaleRange(577790.554289, 36111.909643);
 
       map.addLayer(mac);
 

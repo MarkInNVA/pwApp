@@ -5,7 +5,7 @@ Ext.define('PWApp.Application', {
 
     views: [ 'MapView' ],
 
-    controllers: [ ],
+    controllers: [ 'Main' ],
 
     stores: [ ]
 });
