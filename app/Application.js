@@ -3,7 +3,7 @@ Ext.define('PWApp.Application', {
 
     extend: 'Ext.app.Application',
 
-    views: [ 'MapView' ],
+    views: [ 'MapView', 'WorkspaceView' ],
 
     controllers: [ 'Main' ],
 

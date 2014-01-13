@@ -41,15 +41,15 @@ Ext.define('PWApp.view.MapView', {
 				tbar: [
 					{
 						xtype: 'button',
-						text: 'Help',
-						myNameIs: 'help'
-					},
-					{
-						xtype: 'button',
 						text: 'Initial Extent',
 						myNameIs: 'initialExtent'
+					},
+					{ 	xtype: 'tbspacer', width: 15 }, // add a 50px space
+					{
+						xtype: 'button',
+						text: 'Help',
+						myNameIs: 'help'
 					}
-
 				],
 				items:[
 					{

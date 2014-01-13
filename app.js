@@ -7,9 +7,15 @@
 Ext.Loader.setConfig({
 	enabled: true,
 	paths: {
-		'Ext.ux' : 'app/ux'
+		'Ext.ux' : 'app/ux'  
 	}
 });
+
+Ext.require([
+    'Ext.window.*',
+    'Ext.toolbar.Spacer',
+    'Ext.ux.AGC'
+]);
 
 
 Ext.application({
@@ -17,7 +23,7 @@ Ext.application({
 
     extend: 'PWApp.Application',
 
-   requires: ['Ext.ux.AGC'],
+ //  requires: ['Ext.ux.AGC', 'Ext.window.*'],
     
     autoCreateViewport: true
 });

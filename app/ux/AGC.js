@@ -81,11 +81,14 @@ Ext.define('Ext.ux.AGC', {
         	map.on("load", function() {
     			me.setMap(map);
     			me.setInitialExtent(map.extent);
-    			console.log(map.extent);
+//    			console.log(map.extent);
     	//		
         	});
-
-
+var usaUrl = "http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_db/MapServer"
+var usaLayer = new esri.layers.ArcGISDynamicMapServiceLayer(usaUrl, { 
+          "id": "usa",
+          "opacity": 0.7
+        });
  			
 var tMSLayer = new esri.layers.ArcGISTiledMapServiceLayer( "http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_DB_CACHED/MapServer");
 
@@ -102,44 +105,14 @@ var tMSLayer = new esri.layers.ArcGISTiledMapServiceLayer( "http://eerscmap.usgs
 
 
 
-  //       	mac.on("update-end", function(o) {
-  //       		var a = new Array();
-  //       		var b = new Array();
-  //       		var g =o.target.graphics;
+         	mac.on("update-end", function(o) {
+            console.log('features :',o.target.graphics.length);
+         	});
 
-  //       		var i=0,len=g.length;
+      map.addLayer(usaLayer);
+//      map.addLayer(mac);
 
-		// 		for (; i<len; )	{	
-		// 			var a = new Array();
-		// 			a.push(g[i].attributes.OBJECTID , g[i].attributes.well_mine_name, g[i].attributes.age, g[i].attributes.formation, g[i].attributes.group_, g[i].attributes.publication, g[i].attributes.photomicrograph_gallery);	 
-		// //			console.log(g[i].attributes.OBJECTID,', ',g[i].attributes.well_mine_name);
-		// 			b.push(a);
-		// 			i++;
-		// 		}
-  //       		var s = Ext.data.StoreManager.lookup('ApointStore');
-  //       		s.loadData(b);
-
-  //       	});
-
- 	// 		mac.on("click", function(e){
- 	// 			var a = e.graphic.attributes;
- 	// 			opAtlas.app.fireEvent('pointselected',a,e);
- 	// 			me.selectPoint(a.OBJECTID);
- 	// 		});
-
-// 			mac.setDefinitionExpression("visible = 1");
-
- 			// mac.setSelectionSymbol(dfsSelected);
- 			// var renderer = new esri.renderer.UniqueValueRenderer(sfs, "material"); // unique value on material
- 			// renderer.addValue("Coal", dfsCoal);
- 			// renderer.addValue("Shale", dfsShale);
-      var renderer = new esri.renderer.SimpleRenderer(dfsCoal)
- 			mac.setRenderer(renderer);
-      mac.setScaleRange(577790.554289, 36111.909643);
-
-      map.addLayer(mac);
-
- 			map.addLayer(tMSLayer);
+// 			map.addLayer(tMSLayer);
 		}
 
 		dojo.ready(init);
@@ -148,6 +121,24 @@ var tMSLayer = new esri.layers.ArcGISTiledMapServiceLayer( "http://eerscmap.usgs
 	setInitExtent: function() {
 		this.map.setExtent(this.getInitialExtent());
 	},
+
+  gotIt: function(results) {
+    var myAns = Ext.ComponentQuery.query('panel[name=myWorkspace] textfield[myNameIs=numberOfPoints]')[0];
+    myAns.setValue(results);
+ //   console.log(results)
+//    console.log('results :', results)
+  },
+
+  getPointCount: function() {
+      var fl = this.map.getLayer("countries");
+      var q = new esri.tasks.Query();
+      var qt = new esri.tasks.QueryTask("http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_db/MapServer/0");
+      var m = this.map;
+ //     q.returnCountOnly = true;
+      q.where = '1=1';
+      qt.executeForCount(q, this.gotIt);
+ //     console.log('query :', q);
+  },
 
 	onResize: function() {    // keeps map & screen coordinated
 		if (this.map) {

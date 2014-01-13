@@ -10,7 +10,7 @@ Ext.define('PWApp.view.Viewport', {
 
     items: [
         {
-            xtype: 'panel',
+            xtype: 'workspaceview',
             region: 'south',
             collapsible: true,
             split: true,
