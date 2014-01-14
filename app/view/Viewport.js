@@ -9,13 +9,13 @@ Ext.define('PWApp.view.Viewport', {
     },
 
     items: [
-        {
-            xtype: 'workspaceview',
-            region: 'south',
-            collapsible: true,
-            split: true,
-            height: 200
-        },
+        // {
+        //     xtype: 'workspaceview',
+        //     region: 'south',
+        //     collapsible: true,
+        //     split: true,
+        //     height: 200
+        // },
         {
             xtype: 'mapview',
             region: 'center'

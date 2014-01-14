@@ -13,19 +13,28 @@ Ext.define('PWApp.view.WorkspaceView', {
     title: 'Filters',
     items: [
         {
+            xtype: 'displayfield',
+            fieldLabel: 'Map',
+            myNameIs: 'mapType',
+            value: 'Cached',
+            height:20
+        },
+        {
             xtype: 'textfield',
             myNameIs: 'textField1',
             fieldLabel: 'Criteria 1',
+            value: ''
         }, 
         {
             xtype: 'textfield',
             myNameIs: 'textField2',
-            fieldLabel: 'Criteria 2'
+            fieldLabel: 'Criteria 2',
+            value: ''
         },
         {
             xtype: 'textfield',
             myNameIs: 'numberOfPoints',
-            fieldLabel: 'Criteria 2'
+            fieldLabel: 'Result Count'
         }
     ],
 
@@ -49,9 +58,9 @@ Ext.define('PWApp.view.WorkspaceView', {
             //width: 250,
 
             handler: function() {
- //               var myVal = Ext.ComponentQuery.query('panel[name=myWorkspace] textfield')[0];
- //               var myVal2 = Ext.ComponentQuery.query('panel[name=myWorkspace] textfield')[1];
- //               console.log('s :', myVal.getValue(),' e :', myVal2.getValue());
+ //                var myVal = Ext.ComponentQuery.query('panel[name=myWorkspace] textfield')[0];
+ //                var myVal2 = Ext.ComponentQuery.query('panel[name=myWorkspace] textfield')[1];
+ // //               console.log('s :', myVal.getValue(),' e :', myVal2.getValue());
 //                PWApp.app.fireEvent('haveCriteria', myVal, myVal2);
                 PWApp.app.fireEvent('haveCriteria');
             }

@@ -44,6 +44,11 @@ Ext.define('PWApp.view.MapView', {
 						text: 'Initial Extent',
 						myNameIs: 'initialExtent'
 					},
+					{
+						xtype: 'button',
+						text: 'Filter',
+						myNameIs: 'showFilterPanel'
+					},
 					{ 	xtype: 'tbspacer', width: 15 }, // add a 50px space
 					{
 						xtype: 'button',

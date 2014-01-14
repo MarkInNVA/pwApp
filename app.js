@@ -12,8 +12,6 @@ Ext.Loader.setConfig({
 });
 
 Ext.require([
-    'Ext.window.*',
-    'Ext.toolbar.Spacer',
     'Ext.ux.AGC'
 ]);
 
