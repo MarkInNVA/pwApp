@@ -89,8 +89,8 @@ Ext.define('Ext.ux.AGC', {
 //           "id": "usa",
 //           "opacity": 0.7
 //         });
- 			
-      var tMSLayer = new esri.layers.ArcGISTiledMapServiceLayer( "http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_DB_CACHED/MapServer",{
+
+      var tMSLayer = new esri.layers.ArcGISTiledMapServiceLayer( "http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_DB_CACHED/MapServer",{ 			
         id: 'tiles'
       });
 
