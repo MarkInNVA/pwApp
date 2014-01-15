@@ -16,10 +16,10 @@ Ext.define('Ext.ux.AGC', {
 	},
 	initComponent: function() {
 		dojo.require("esri.map");
-        dojo.require("esri.layers.FeatureLayer");
-        dojo.require("esri.layers.agstiled");
+    dojo.require("esri.layers.FeatureLayer");
+    dojo.require("esri.layers.agstiled");
 //        dojo.require("esri.symbol.SimpleFillSymbol");
-        dojo.require("esri.tasks.query");
+    dojo.require("esri.tasks.query");
  //       dojo.require("esri.renderers.UniqueValueRenderer");
 //        dojo.require("dojo.color");
 	},
@@ -98,10 +98,10 @@ Ext.define('Ext.ux.AGC', {
       var mac = new esri.layers.FeatureLayer("http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_db/MapServer/0", {
 
  				id: 'points',
- 	    		mode:  esri.layers.FeatureLayer.MODE_ONDEMAND, //MODE_SNAPSHOT,
+ 	    	mode:  esri.layers.FeatureLayer.MODE_ONDEMAND, //MODE_SNAPSHOT,
 // //	    		mode: 1, //esri.layers.FeatureLayer.MODE_SNAPSHOT,
- 	    		outFields: ["*"] ,
-          visible: false
+ 	    	outFields: ["*"] ,
+        visible: false
 // 	    		opacity: 0.65
  			});
 
@@ -137,18 +137,11 @@ Ext.define('Ext.ux.AGC', {
   },
 
   getPointCount: function(c) {
-
       var q = new esri.tasks.Query();
       var qt = new esri.tasks.QueryTask("http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_db/MapServer/0");
       var m = this.map;
       this.criteria1 = c;
       q.where = c;
-     // console.log("ready, set, ...  c:",this.criteria1);
-     // var tl = this.map.getLayer("tiles"); 
-     // console.log("             go");
-     // console.log('tile layer', me.tl);
-     // fl = this.map.getLayer("points"); 
-
       qt.executeForCount(q, this.gotIt);
   },
 
@@ -156,14 +149,5 @@ Ext.define('Ext.ux.AGC', {
 		if (this.map) {
    		   this.map.resize();			
 		}
-  }  // ,
-  
-//   selectPoint: function(objId) {
-//   	var fl = this.map.getLayer("points");
-//   	var q = new esri.tasks.Query();
-//   	var m = this.map;
-// //console.log('objectId:',objId,', fl:',fl);
-//   	q.objectIds = [objId];
-//   	fl.selectFeatures(q, esri.layers.FeatureLayer.SELECTION_NEW); 
-//   } 
+  }  
 });
