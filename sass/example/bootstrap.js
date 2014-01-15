@@ -8,7 +8,8 @@ Ext.Loader.addClassPathMappings({
   "Ext": "../../../ext/src",
   "Ext.Msg": "../../../ext/src/window/MessageBox.js",
   "Ext.ux": "../../app/ux",
-  "PWApp": "../../app"
+  "PWApp": "../../app",
+  "PWApp.view.WorkspaceView": "../../app/view/old/WorkspaceView.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
   "Ext.AbstractComponent": [],

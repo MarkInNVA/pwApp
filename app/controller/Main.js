@@ -13,10 +13,10 @@ Ext.define('PWApp.controller.Main', {
 	    	name: 'myForm',
 	    	bodyPadding: 5,
 	    	height:300,
-	    	width: 350,
+	    	width: 250,
 
 
-		    layout: 'anchor',
+		    layout: 'absolute',
 		    // defaults: {
 		    //     anchor: '100%'
 		    // },
@@ -28,24 +28,43 @@ Ext.define('PWApp.controller.Main', {
 		            fieldLabel: 'Map type',
 		            myNameIs: 'mapType',
 		            value: 'Cached',
-		            height:20
+		            width: 75,
+		            x: 10, y: 10
 		        },
 		        {
 		            xtype: 'textfield',
 		            myNameIs: 'cField1',
 		            fieldLabel: 'Criteria 1',
-		            value: 'ph < 5.4'
+		            value: 'ph < 5.4',
+		            width: 175,
+            		x: 10, y: 200
 		        }, 
 		        {
 		            xtype: 'textfield',
 		            myNameIs: 'textField2',
 		            fieldLabel: 'Criteria 2',
-		            value: ''
+		            value: '',
+		            width: 175,
+            		x: 10, y: 300
+
 		        },
 		        {
 		            xtype: 'textfield',
 		            myNameIs: 'numberOfPoints',
-		            fieldLabel: 'Result Count'
+		            fieldLabel: 'Result Count',
+		            value: '',
+		            width: 175,
+            		x: 10, y: 400
+
+		        },
+		        {
+		            xtype: 'textfield',
+		            myNameIs: 'totalPoints',
+		            fieldLabel: 'Total points in extent',
+		            value: '',
+		            width: 175,
+            		x: 10, y: 500
+
 		        }
 	   	    ],
 
@@ -100,12 +119,12 @@ Ext.define('PWApp.controller.Main', {
     		bodyBorder: true,
     		bodyPadding: 10,
     		x: 100,
-    		y: 100,
+    		y: 200,
         	closable: true,
         	resizable: true,
         	draggable: true,
     		height: 350,
-	    	width: 380,
+	    	width: 280,
     		closeAction: 'hide',
     		items: [ form	]  
 		});
@@ -135,6 +154,10 @@ Ext.define('PWApp.controller.Main', {
             scope: this
         });
 
+		this.application.on({
+        	updateTotalPoints: this.updateTotalPoints,
+            scope: this
+        });
         this.filterWindow.show();
 	},
 
@@ -149,14 +172,14 @@ Ext.define('PWApp.controller.Main', {
 	},
 	havecriteria: function() {
 //		console.log('c1 :', c1.getValue(), ', c2 :', c2.getValue())
-		var mapType = Ext.ComponentQuery.query('form[name=myForm] displayfield[myNameIs=mapType]')[0];
+//		var mapType = Ext.ComponentQuery.query('form[name=myForm] displayfield[myNameIs=mapType]')[0];
 		var myVal = Ext.ComponentQuery.query('form[name=myForm] textfield[myNameIs=cField1]')[0];
         var myVal2 = Ext.ComponentQuery.query('form[name=myForm] textfield')[1];
-        var criteria1 = myVal.getValue()
+        var criteria1 = myVal.getValue() + ' ' + myVal2.getValue();
  
 //		var myAns = Ext.ComponentQuery.query('panel[name=myWorkspace] textfield[myNameIs=numberOfPoints]')[0];
 
-                console.log('C1 :', myVal.getValue(),' C2 :', myVal2.getValue());
+                console.log('C1 :', myVal.getValue(),' C2 :', myVal2.getValue(), ', criteria1 :', criteria1);
   //      myAns.setValue('33');
 		var map = Ext.ComponentQuery.query('agc')[0];
 		map.getPointCount(criteria1);
@@ -170,17 +193,18 @@ Ext.define('PWApp.controller.Main', {
 		myAns.setValue(numOfWells);
 //		console.log('PWApp.haveNumberOfWells event, haveWells :', numOfWells);
 
-		var tl = map.map.getLayer("tiles"); 
-		var fl = map.map.getLayer("points");
-
-		var myVal = Ext.ComponentQuery.query('form[name=myForm] textfield[myNameIs=cField1]')[0];
-		var criteria1 = myVal.getValue()		
-
-		var mapType = Ext.ComponentQuery.query('form[name=myForm] displayfield[myNameIs=mapType]')[0];
 
 //		console.log('PWApp.haveNumberOfWells event, criteria1 :', criteria1);
 	   	if (numOfWells < 1000) {
-	    	console.log('# wells < 1000');
+	   		var tl = map.map.getLayer("tiles"); 
+			var fl = map.map.getLayer("points");
+
+			var myVal = Ext.ComponentQuery.query('form[name=myForm] textfield[myNameIs=cField1]')[0];
+			var criteria1 = myVal.getValue()		
+
+			var mapType = Ext.ComponentQuery.query('form[name=myForm] displayfield[myNameIs=mapType]')[0];
+
+	 //   	console.log('# wells < 1000');
 	    	tl.setVisibility(false);
 	    	fl.setDefinitionExpression(criteria1);
 	    	fl.setVisibility(true);
@@ -194,6 +218,12 @@ Ext.define('PWApp.controller.Main', {
 
 	    	// mapType.setValue('Cached');             
 	    }
+	},
+
+	updateTotalPoints: function(points) {
+		var myVal = Ext.ComponentQuery.query('form[name=myForm] textfield[myNameIs=totalPoints]')[0];
+		myVal.setValue(points);		
+
 	},
 
 	resetCacheMap: function() {
