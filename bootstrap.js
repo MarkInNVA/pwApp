@@ -9,7 +9,7 @@ Ext.Loader.addClassPathMappings({
   "Ext.Msg": "../ext/src/window/MessageBox.js",
   "Ext.ux": "app/ux",
   "PWApp": "app",
-  "PWApp.view.WorkspaceView": "app/view/old/WorkspaceView.js"
+  "PWApp.view.mapview.MapView": "app/view/MapView.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
   "Ext.AbstractComponent": [],
@@ -791,9 +791,12 @@ Ext.ClassManager.addNameAlternateMappings({
   ],
   "PWApp.Application": [],
   "PWApp.controller.Main": [],
-  "PWApp.view.MapView": [],
   "PWApp.view.Viewport": [],
-  "PWApp.view.WorkspaceView": []
+  "PWApp.view.mapview.MapView": [],
+  "PWApp.view.wksp.FilterHolder": [],
+  "PWApp.view.wksp.LegendView": [],
+  "PWApp.view.wksp.Workspace": [],
+  "PWApp.view.wksp.WorkspaceView": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -1714,11 +1717,20 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "PWApp.Application": [],
   "PWApp.controller.Main": [],
-  "PWApp.view.MapView": [
+  "PWApp.view.Viewport": [],
+  "PWApp.view.mapview.MapView": [
     "widget.mapview"
   ],
-  "PWApp.view.Viewport": [],
-  "PWApp.view.WorkspaceView": [
+  "PWApp.view.wksp.FilterHolder": [
+    "widget.filterHolder"
+  ],
+  "PWApp.view.wksp.LegendView": [
+    "widget.legendView"
+  ],
+  "PWApp.view.wksp.Workspace": [
+    "widget.workspace"
+  ],
+  "PWApp.view.wksp.WorkspaceView": [
     "widget.workspaceview"
   ]
 });

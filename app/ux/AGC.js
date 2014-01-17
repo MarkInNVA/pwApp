@@ -23,6 +23,8 @@ Ext.define('Ext.ux.AGC', {
     dojo.require("esri.layers.agstiled");
 //        dojo.require("esri.symbol.SimpleFillSymbol");
     dojo.require("esri.tasks.query");
+    dojo.require("esri.dijit.Legend"),
+    dojo.require("dojo._base.array")
  //       dojo.require("esri.renderers.UniqueValueRenderer");
 //        dojo.require("dojo.color");
 	},
@@ -148,6 +150,8 @@ Ext.define('Ext.ux.AGC', {
  			});
 
 
+      map.addLayer(tMSLayer);
+
       // var renderer = new esri.renderer.SimpleRenderer(dfsCoal)
       // mac.setRenderer(renderer);
       // mac.setScaleRange(288895.277144, 36111.909643);
@@ -157,21 +161,58 @@ Ext.define('Ext.ux.AGC', {
          	// });
 
  //     map.addLayer(usaLayer);
-      map.addLayer(mac);
+//      map.addLayer(mac);
 
- 			map.addLayer(tMSLayer);
+
+      map.on("layer-add-result", function (evt) {
+        if (evt.layer.id == 'tiles') {
+          var layerInfo = evt.layer.layerInfos;
+
+  //        console.log('layer-add-result, evt :', evt.layer.layerInfos);
+          var accTab = Ext.ComponentQuery.query('legendView')[0];
+          var tempStr = accTab.id + '-body'
+          console.log('legendView :',accTab.id);
+          Ext.DomHelper.append(tempStr, {tag: 'div', cls: 'myLegendCls', id: 'myLegendId'});
+  //        theDiv = accTab.body.id;
+
+          var legendDijit = new Legend({
+            map: map,
+            layerInfos: layerInfo
+          }, 'myLegendId');
+          legendDijit.startup();
+        }
+      });
+
+
+ 			map.addLayer(mac);
 		}
 
 		dojo.ready(init);
 	},
 
+  doLegend: function(theDiv) {
+        var layerInfo = arrayUtils.map(evt.layers, function (layer, index) {
+          return {layer:layer.layer, title:layer.layer.name};
+        });
+
+        console.log("layerInfo :",layerInfo);
+
+        if (layerInfo.length > 0) {
+          var legendDijit = new Legend({
+            map: map,
+            layerInfos: layerInfo
+          }, theDiv);
+          legendDijit.startup();
+        }
+
+  },
 	setInitExtent: function() {
 		this.map.setExtent(this.getInitialExtent());
 	},
 
   gotIt: function(results) {
 
-    var myAns = Ext.ComponentQuery.query('form[name=myForm] textfield[myNameIs=numberOfPoints]')[0];
+ //   var myAns = Ext.ComponentQuery.query('form[name=myForm] textfield[myNameIs=numberOfPoints]')[0];
 
     var numOfWells = results;
 
