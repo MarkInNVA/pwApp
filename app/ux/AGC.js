@@ -12,7 +12,10 @@ Ext.define('Ext.ux.AGC', {
 		initialExtent: null,
 		initialZoom: null,
 
-		useCurrentLocation: false
+		queryFilter: null,
+    queryCriteria: null,
+    queryTaskFilter: null,
+    queryTaskCriteria: null
 	},
 	initComponent: function() {
 		dojo.require("esri.map");
@@ -20,6 +23,8 @@ Ext.define('Ext.ux.AGC', {
     dojo.require("esri.layers.agstiled");
 //        dojo.require("esri.symbol.SimpleFillSymbol");
     dojo.require("esri.tasks.query");
+    dojo.require("esri.dijit.Legend"),
+    dojo.require("dojo._base.array")
  //       dojo.require("esri.renderers.UniqueValueRenderer");
 //        dojo.require("dojo.color");
 	},
@@ -81,9 +86,48 @@ Ext.define('Ext.ux.AGC', {
       map.on("load", function() {
 			  me.setMap(map);
 		    me.setInitialExtent(map.extent);
+      
+        var q = new esri.tasks.Query();
+        me.setQueryFilter(q);
+//        console.log(me.getQueryFilter());
+
+        var q2 = new esri.tasks.Query();
+        me.setQueryCriteria(q2);
+
+        var qt = new esri.tasks.QueryTask("http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_DB_CACHED/MapServer/0");
+        me.setQueryTaskCriteria(qt);
+
+        var qt2 = new esri.tasks.QueryTask("http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_DB_CACHED/MapServer/0");
+        me.setQueryTaskFilter (qt2);        
 //    			console.log(map.extent);
+
 	//		
     	});
+
+         map.on("extent-change", function(e) {
+//                 console.log("e :",e);
+
+            var qt = new esri.tasks.QueryTask("http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_db/MapServer/0");        
+            var q = new  esri.tasks.Query();
+            q.geometry = e.extent;
+                 // set up q & qt
+            qt.executeForCount(q, function(count){
+              PWApp.app.fireEvent('updateTotalPoints', count);
+              //console.log("count :", count);
+            });
+         });
+
+ //      map.on("extent-change", function(e){
+ // //       console.log(e.extent);
+ //         var q  = me.getQueryFilter();
+ //         console.log("q :",q);
+ //      //   var qt = me.getQueryTaskFilter();
+ //      //   q.geometry = e.extent;
+ //      //   // qt.executeForCount(q, function(count){
+ //      //   //   console.log("Count :", count);
+ //      //   // });
+ //      });
+
 //var usaUrl = "http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_db/MapServer"
 // var usaLayer = new esri.layers.ArcGISDynamicMapServiceLayer(usaUrl, { 
 //           "id": "usa",
@@ -106,6 +150,8 @@ Ext.define('Ext.ux.AGC', {
  			});
 
 
+      map.addLayer(tMSLayer);
+
       // var renderer = new esri.renderer.SimpleRenderer(dfsCoal)
       // mac.setRenderer(renderer);
       // mac.setScaleRange(288895.277144, 36111.909643);
@@ -115,21 +161,58 @@ Ext.define('Ext.ux.AGC', {
          	// });
 
  //     map.addLayer(usaLayer);
-      map.addLayer(mac);
+//      map.addLayer(mac);
 
- 			map.addLayer(tMSLayer);
+
+      map.on("layer-add-result", function (evt) {
+        if (evt.layer.id == 'tiles') {
+          var layerInfo = evt.layer.layerInfos;
+
+  //        console.log('layer-add-result, evt :', evt.layer.layerInfos);
+          var accTab = Ext.ComponentQuery.query('legendView')[0];
+          var tempStr = accTab.id + '-body'
+          console.log('legendView :',accTab.id);
+          Ext.DomHelper.append(tempStr, {tag: 'div', cls: 'myLegendCls', id: 'myLegendId'});
+  //        theDiv = accTab.body.id;
+
+          var legendDijit = new Legend({
+            map: map,
+            layerInfos: layerInfo
+          }, 'myLegendId');
+          legendDijit.startup();
+        }
+      });
+
+
+ 			map.addLayer(mac);
 		}
 
 		dojo.ready(init);
 	},
 
+  doLegend: function(theDiv) {
+        var layerInfo = arrayUtils.map(evt.layers, function (layer, index) {
+          return {layer:layer.layer, title:layer.layer.name};
+        });
+
+        console.log("layerInfo :",layerInfo);
+
+        if (layerInfo.length > 0) {
+          var legendDijit = new Legend({
+            map: map,
+            layerInfos: layerInfo
+          }, theDiv);
+          legendDijit.startup();
+        }
+
+  },
 	setInitExtent: function() {
 		this.map.setExtent(this.getInitialExtent());
 	},
 
   gotIt: function(results) {
 
-    var myAns = Ext.ComponentQuery.query('form[name=myForm] textfield[myNameIs=numberOfPoints]')[0];
+ //   var myAns = Ext.ComponentQuery.query('form[name=myForm] textfield[myNameIs=numberOfPoints]')[0];
 
     var numOfWells = results;
 
@@ -137,12 +220,16 @@ Ext.define('Ext.ux.AGC', {
   },
 
   getPointCount: function(c) {
-      var q = new esri.tasks.Query();
-      var qt = new esri.tasks.QueryTask("http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_db/MapServer/0");
+//console.log("getPointCount c:",c)
+      var qc = this.getQueryCriteria();
+      var qtc = this.getQueryTaskCriteria();
+//      var qt = new esri.tasks.QueryTask("http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_db/MapServer/0");
       var m = this.map;
-      this.criteria1 = c;
-      q.where = c;
-      qt.executeForCount(q, this.gotIt);
+      qc.geometry = m.extent;
+      console.log(m.extent);
+//      this.criteria1 = c;
+      qc.where = c;
+      qtc.executeForCount(qc, this.gotIt);
   },
 
 	onResize: function() {    // keeps map & screen coordinated
