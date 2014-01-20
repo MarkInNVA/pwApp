@@ -6,69 +6,8 @@ Ext.define('PWApp.controller.Main', {
     init: function() {
 //		console.log('From controller Main');
 
-		var me = this;
-
-
-
-		this.filterWindow = Ext.create('Ext.window.Window', {
-    		title: 'Filter',
-    		header: {$color:'white'},
-    		layout: 'border',
-    		frame: true,
-    		bodyBorder: true,
-    		bodyPadding: 10,
-    		x: 100,
-    		y: 200,
-        	closable: true,
-        	resizable: true,
-        	draggable: true,
-    		height: 350,
-	    	width: 280,
-    		closeAction: 'hide',
-    		items: [ form	]  
-		});
-
-
-		this.control({
-			'[myNameIs=initialExtent]' : {
-				click: this.initialExtent
-			}
-		});
-
-		this.control({
-			'[myNameIs=help]' : {
-				click: this.help
-			}
-		});
-
-
-		this.control({
-			'[myNameIs=showFilterPanel]' : {
-				click: this.showFilterPanel
-			}
-		});
-
-		this.application.on({
-        	haveNumberOfWells: this.haveWells,
-            scope: this
-        });
-
-		this.application.on({
-        	updateTotalPoints: this.updateTotalPoints,
-            scope: this
-        });
- //       this.filterWindow.show();
 	},
 
-	initialExtent: function() {
-		var map = Ext.ComponentQuery.query('agc')[0];
-		map.setInitExtent();
-	},
-
-	help: function() {
-		this.helpWindow.show();
-//		console.log("Help!");
-	},
 	havecriteria: function() {
 //		console.log('c1 :', c1.getValue(), ', c2 :', c2.getValue())
 //		var mapType = Ext.ComponentQuery.query('form[name=myForm] displayfield[myNameIs=mapType]')[0];
@@ -117,12 +56,6 @@ Ext.define('PWApp.controller.Main', {
 
 	    	// mapType.setValue('Cached');             
 	    }
-	},
-
-	updateTotalPoints: function(points) {
-		var myVal = Ext.ComponentQuery.query('form[name=myForm] textfield[myNameIs=totalPoints]')[0];
-		myVal.setValue(points);		
-
 	},
 
 	resetCacheMap: function() {

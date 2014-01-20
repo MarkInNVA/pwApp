@@ -1,4 +1,4 @@
-Ext.define('PWApp.view.mapview.MapView', {
+Ext.define('PWApp.view.MapView', {
 	extend: 'Ext.panel.Panel',
 
 	alias: 'widget.mapview',
@@ -22,18 +22,18 @@ Ext.define('PWApp.view.mapview.MapView', {
 					{
 						xtype: 'button',
 						text: 'Initial Extent',
-						myNameIs: 'initialExtent'
+						itemId: 'initialExtent'
 					},
 					{
 						xtype: 'button',
 						text: 'Filter',
-						myNameIs: 'showFilterPanel'
+						itemId: 'showFilter'
 					},
 					{ 	xtype: 'tbspacer', width: 15 }, // add a 50px space
 					{
 						xtype: 'button',
 						text: 'Help',
-						myNameIs: 'help'
+						itemId: 'help'
 					}
 				],
 				items:[

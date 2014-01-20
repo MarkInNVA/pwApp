@@ -151,7 +151,7 @@ Ext.define('Ext.ux.AGC', {
 
 
       map.addLayer(tMSLayer);
-
+      map.addLayer(mac);
       // var renderer = new esri.renderer.SimpleRenderer(dfsCoal)
       // mac.setRenderer(renderer);
       // mac.setScaleRange(288895.277144, 36111.909643);
@@ -168,7 +168,7 @@ Ext.define('Ext.ux.AGC', {
         if (evt.layer.id == 'tiles') {
           var layerInfo = evt.layer.layerInfos;
 
-  //        console.log('layer-add-result, evt :', evt.layer.layerInfos);
+          console.log('layer-add-result, evt :', evt.layer.layerInfos);
           var accTab = Ext.ComponentQuery.query('legendView')[0];
           var tempStr = accTab.id + '-body'
           console.log('legendView :',accTab.id);
@@ -181,10 +181,18 @@ Ext.define('Ext.ux.AGC', {
           }, 'myLegendId');
           legendDijit.startup();
         }
+        if (evt.layer.id == 'points') {
+          console.log('layer-add-result, evt :', evt.layer.layerInfos);
+
+              var mm = map.getLayer('points');
+              var s = Ext.StoreManager.lookup('TestFieldStore');
+            //  console.log('mm :', mm);
+            //  console.log('s :',s); 
+              s.add(mm.fields);
+              //s.reload();
+        }
       });
 
-
- 			map.addLayer(mac);
 		}
 
 		dojo.ready(init);

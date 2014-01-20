@@ -3,9 +3,15 @@ Ext.define('PWApp.Application', {
 
     extend: 'Ext.app.Application',
 
-    views: [ 'mapview.MapView', 'wksp.FilterHolder', 'wksp.Workspace', 'wksp.WorkspaceView', 'wksp.LegendView' ],
+    stores: [ 'TestFieldStore' ],
+    views : [ 'MapView', 'testField.TestFieldView' ],
+    controllers: ['TestFieldController'],   // [ 'Main' , 'MapController' ],
 
-    controllers: [ 'Main' ],
+    launch: function() {
+    	console.log('app launch');
+    	// var m = Ext.ComponentQuery.query('agc')[0];
+    	// var mm = m.map.getLayer('points');
+    	// this.getStore('TestFieldStore').add(mm);
 
-    stores: [ ]
+    }
 });
