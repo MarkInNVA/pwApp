@@ -12,6 +12,7 @@ Ext.Loader.addClassPathMappings({
   "Ext.ux.ArcMapPanel": "../ux/ArcMapPanel_abandoned.js",
   "PWApp": "app",
   "PWApp.view.mapview.MapView": "app/view/old/mapview/MapView.js",
+  "PWApp.view.testField.TestFieldView": "app/view/testfield/TestFieldView.js",
   "PWApp.view.wksp.FilterHolder": "app/view/old/wksp/FilterHolder.js",
   "PWApp.view.wksp.LegendView": "app/view/old/wksp/LegendView.js",
   "PWApp.view.wksp.Workspace": "app/view/old/wksp/Workspace.js",
@@ -802,10 +803,15 @@ Ext.ClassManager.addNameAlternateMappings({
   "PWApp.Application": [],
   "PWApp.controller.Main": [],
   "PWApp.controller.MapController": [],
+  "PWApp.controller.TestFieldController": [],
+  "PWApp.model.TestFieldModel": [],
+  "PWApp.store.TestFieldStore": [],
   "PWApp.view.MapView": [],
   "PWApp.view.Viewport": [],
+  "PWApp.view.filter.edit": [],
   "PWApp.view.help.HelpView": [],
   "PWApp.view.mapview.MapView": [],
+  "PWApp.view.testField.TestFieldView": [],
   "PWApp.view.wksp.FilterHolder": [],
   "PWApp.view.wksp.LegendView": [],
   "PWApp.view.wksp.Workspace": [],
@@ -1741,15 +1747,24 @@ Ext.ClassManager.addNameAliasMappings({
   "PWApp.Application": [],
   "PWApp.controller.Main": [],
   "PWApp.controller.MapController": [],
+  "PWApp.controller.TestFieldController": [],
+  "PWApp.model.TestFieldModel": [],
+  "PWApp.store.TestFieldStore": [],
   "PWApp.view.MapView": [
     "widget.mapview"
   ],
   "PWApp.view.Viewport": [],
+  "PWApp.view.filter.edit": [
+    "widget.filteredit"
+  ],
   "PWApp.view.help.HelpView": [
     "widget.helpview"
   ],
   "PWApp.view.mapview.MapView": [
     "widget.mapview"
+  ],
+  "PWApp.view.testField.TestFieldView": [
+    "widget.userlist"
   ],
   "PWApp.view.wksp.FilterHolder": [
     "widget.filterHolder"

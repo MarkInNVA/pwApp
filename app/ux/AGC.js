@@ -11,6 +11,7 @@ Ext.define('Ext.ux.AGC', {
 		map: null,
 		initialExtent: null,
 		initialZoom: null,
+    currentCount: null,
 
 		queryFilter: null,
     queryCriteria: null,
@@ -105,15 +106,19 @@ Ext.define('Ext.ux.AGC', {
     	});
 
          map.on("extent-change", function(e) {
-//                 console.log("e :",e);
+       //   me = this;
+           //      console.log("e :",e);
 
-            var qt = new esri.tasks.QueryTask("http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_db/MapServer/0");        
-            var q = new  esri.tasks.Query();
-            q.geometry = e.extent;
+            var qqt = new esri.tasks.QueryTask("http://eerscmap.usgs.gov/arcgis/rest/services/pw/published_db/MapServer/0");        
+            var qq = new  esri.tasks.Query();
+            qq.geometry = e.extent;
                  // set up q & qt
-            qt.executeForCount(q, function(count){
+         //   console.log("q :",q);
+         //   console.log("qt :",qt);
+            qqt.executeForCount(qq, function(count){
               PWApp.app.fireEvent('updateTotalPoints', count);
-              //console.log("count :", count);
+              me.setCurrentCount(count);
+              console.log("ext count :", me.getCurrentCount());
             });
          });
 
@@ -168,7 +173,7 @@ Ext.define('Ext.ux.AGC', {
         if (evt.layer.id == 'tiles') {
           var layerInfo = evt.layer.layerInfos;
 
-          console.log('layer-add-result, evt :', evt.layer.layerInfos);
+ //         console.log('layer-add-result, evt :', evt.layer.layerInfos);
           var accTab = Ext.ComponentQuery.query('legendView')[0];
           var tempStr = accTab.id + '-body'
           console.log('legendView :',accTab.id);
@@ -182,7 +187,7 @@ Ext.define('Ext.ux.AGC', {
           legendDijit.startup();
         }
         if (evt.layer.id == 'points') {
-          console.log('layer-add-result, evt :', evt.layer.layerInfos);
+//          console.log('layer-add-result, evt :', evt.layer.layerInfos);
 
               var mm = map.getLayer('points');
               var s = Ext.StoreManager.lookup('TestFieldStore');
@@ -238,6 +243,9 @@ Ext.define('Ext.ux.AGC', {
 //      this.criteria1 = c;
       qc.where = c;
       qtc.executeForCount(qc, this.gotIt);
+  },
+  getWellCount: function() {
+    return this.getCurrentCount();
   },
 
 	onResize: function() {    // keeps map & screen coordinated

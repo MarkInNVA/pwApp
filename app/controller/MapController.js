@@ -1,28 +1,28 @@
 Ext.define('PWApp.controller.MapController', {
     extend: 'Ext.app.Controller',
+    requires: [ 'Ext.window.*', 
+                'Ext.toolbar.Spacer', 
+                'Ext.form.*', 
+                'Ext.layout.container.Absolute' 
+    ],
 
     config: {
     	models: [ ],
     	stores: [ ],
-    	views : [ 'MapView', 'help.HelpView' ],
+    	views : [ 'MapView', 'filter.edit' ],
     	// refs: {
     	// 	/* references to view components */
     	// 	'ieButton' : 'mapview > initialExtent'
     	// },
 
     	init : function() {
-    		console.log('MapController : init');
-
-//    		var v = this.getView('MapView');
-//    		console.log('v :', v);
-
+//    		console.log('MapController : init');
 
 			this.control({
 				'mapview  #initialExtent' : {
 					click: this.initialExtent
 				}
 			});
-
 
 			this.control({
 				'mapview #help' : {
@@ -36,10 +36,10 @@ Ext.define('PWApp.controller.MapController', {
 				}
 			});
 
-  			this.application.on({
-				updateTotalPoints: this.updateTotalPoints,
- 				scope: this
- 			});
+  		// 	this.application.on({
+				// updateTotalPoints: this.updateTotalPoints,
+ 			// 	scope: this
+ 			// });
 
 	  		this.helpWindow = Ext.create('Ext.window.Window', {
 	        	title : 'Help',
@@ -57,120 +57,8 @@ Ext.define('PWApp.controller.MapController', {
 	         	}
 	     	});
 
- 
-         var form =Ext.create('Ext.form.Panel', {
- //           title: 'filter',
-            name: 'myForm',
-            bodyPadding: 5,
-            height:300,
-            width: 250,
-
-
-            layout: 'absolute',
-            // defaults: {
-            //     anchor: '100%'
-            // },
-
-            defaultType: 'textfield',
-            items: [
-                {
-                    xtype: 'displayfield',
-                    fieldLabel: 'Map type',
-                    myNameIs: 'mapType',
-                    value: 'Cached',
-                    width: 75,
-                    x: 10, y: 10
-                },
-                {
-                    xtype: 'textfield',
-                    myNameIs: 'cField1',
-                    fieldLabel: 'Criteria 1',
-                    value: 'ph < 5.4',
-                    width: 175,
-                    x: 10, y: 50
-                }, 
-                {
-                    xtype: 'textfield',
-                    myNameIs: 'textField2',
-                    fieldLabel: 'Criteria 2',
-                    value: '',
-                    width: 175,
-                    x: 10, y: 90
-
-                },
-                {
-                    xtype: 'textfield',
-                    myNameIs: 'numberOfPoints',
-                    fieldLabel: 'Result Count',
-                    value: '',
-                    width: 175,
-                    x: 10, y: 130
-
-                },
-                {
-                    xtype: 'textfield',
-                    myNameIs: 'totalPoints',
-                    fieldLabel: 'Total points in extent',
-                    value: '',
-                    width: 175,
-                    x: 10, y: 170
-
-                }
-            ],
-
-        // Reset and Submit buttons
-            buttons: [{
-                text: 'Reset',
-                handler: function() {
-                    this.up('form').getForm().reset();
-                    me.resetCacheMap();
-                }
-            }, {
-                text: 'Submit',
-                formBind: true, //only enabled once the form is valid
-                disabled: true,
-                handler: function() {
-           //       console.log(this.up('form').getForm())
-                    // var mapType = Ext.ComponentQuery.query('form[name=myForm] displayfield[myNameIs=mapType]')[0];
-
-                    var myVal = Ext.ComponentQuery.query('form[name=myForm] textfield[myNameIs=cField1]')[0];
-                    var criteria1 = myVal.getValue();
-
-    //              console.log('cool answer is ',criteria1);
-
-                    var map = Ext.ComponentQuery.query('agc')[0];
-
-                    map.getPointCount(criteria1);
-                }
-            }]
-        });
-
-    		this.filterWindow = Ext.create('Ext.window.Window', {
-	    		title: 'Filter',
-	    		layout: 'border',
-	    		bodyPadding: 10,
-	    		x: 50,
-	    		y: 200,
-	    		height: 350,
-		    	width: 280,
-	    		closeAction: 'hide',
-	    		items: //
-	    		[ 
-	    		// {	xtype: 'panel',
-	    		// 	html: 'hi'
-	    		// }
-	    			form	
-	    		]  
-			});
-
-
 		// this.application.on({
   //       	haveNumberOfWells: this.haveWells,
-  //           scope: this
-  //       });
-
-		// this.application.on({
-  //       	updateTotalPoints: this.updateTotalPoints,
   //           scope: this
   //       });
 
@@ -191,12 +79,10 @@ Ext.define('PWApp.controller.MapController', {
 	},
 	showFilter: function() {
 		console.log('showFilter');
-		this.filterWindow.show();
-	},
-	updateTotalPoints: function(points) {
-		var myVal = Ext.ComponentQuery.query('form[name=myForm] textfield[myNameIs=totalPoints]')[0];
-		myVal.setValue(points);		
+        var view = Ext.widget('filteredit');
+        var t =  Ext.ComponentQuery.query('agc')[0].getCurrentCount();
+        console.log('t :', t)
+ //       Ext.ComponentQuery.query('textfield#totalPointsId')[0].setValue(t.getCurrentCount());
 
 	}
-    /* event listener handler methods go here */
 }); 

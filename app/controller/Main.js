@@ -69,11 +69,11 @@ Ext.define('PWApp.controller.Main', {
 
     	mapType.setValue('Cached');             
 
-	},
+	} // ,
 
-	showFilterPanel: function() {
-		this.filterWindow.show();
-	}
+	// showFilterPanel: function() {
+	// 	this.filterWindow.show();
+	// }
 });
 
 

@@ -7,7 +7,7 @@ Ext.define('PWApp.store.TestFieldStore', {
     proxy: {
     	type: 'memory',
     	reader: {
-    		type:'json',
+    		type:'json' //,
 //    		root:'fields'
     	}
     }

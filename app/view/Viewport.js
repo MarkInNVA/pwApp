@@ -2,7 +2,7 @@ Ext.define('PWApp.view.Viewport', {
     extend: 'Ext.container.Viewport',
     requires:[
         'Ext.layout.container.Border',
-        'Ext.layout.container.Fit',
+        'Ext.layout.container.Fit'
     ],
 
     layout: {

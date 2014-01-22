@@ -4,8 +4,8 @@ Ext.define('PWApp.Application', {
     extend: 'Ext.app.Application',
 
     stores: [ 'TestFieldStore' ],
-    views : [ 'MapView', 'testField.TestFieldView' ],
-    controllers: ['TestFieldController'],   // [ 'Main' , 'MapController' ],
+    views : [ 'MapView', 'testField.TestFieldView', 'filter.edit' ],
+    controllers: [ 'MapController', 'filterEditController' ],   // [ 'TestFieldController', 'Main'  ],
 
     launch: function() {
     	console.log('app launch');
