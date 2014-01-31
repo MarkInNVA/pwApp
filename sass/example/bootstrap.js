@@ -7,17 +7,15 @@
 Ext.Loader.addClassPathMappings({
   "Ext": "../../../ext/src",
   "Ext.Msg": "../../../ext/src/window/MessageBox.js",
-  "Ext.ux": "../../../ux",
-  "Ext.ux.AGC": "../../app/ux/AGC.js",
-  "Ext.ux.ArcMapPanel": "../../../ux/ArcMapPanel_abandoned.js",
+  "Ext.ux": "../../app/ux",
   "PWApp": "../../app",
+  "PWApp.view.help.HelpView": "../../app/view/old/help/HelpView.js",
   "PWApp.view.mapview.MapView": "../../app/view/old/mapview/MapView.js",
   "PWApp.view.testField.TestFieldView": "../../app/view/testfield/TestFieldView.js",
   "PWApp.view.wksp.FilterHolder": "../../app/view/old/wksp/FilterHolder.js",
   "PWApp.view.wksp.LegendView": "../../app/view/old/wksp/LegendView.js",
   "PWApp.view.wksp.Workspace": "../../app/view/old/wksp/Workspace.js",
-  "PWApp.view.wksp.WorkspaceView": "../../app/view/old/wksp/WorkspaceView.js",
-  "countryWindow": "../../../ux/ArcMapView2.js"
+  "PWApp.view.wksp.WorkspaceView": "../../app/view/old/wksp/WorkspaceView.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
   "Ext.AbstractComponent": [],
@@ -780,9 +778,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.util.Sorter": [],
   "Ext.util.TextMetrics": [],
   "Ext.ux.AGC": [],
-  "Ext.ux.ArcMapPanel": [],
-  "Ext.ux.ArcMapView": [],
-  "Ext.ux.ArcMapView2": [],
+  "Ext.ux.AGC-old": [],
   "Ext.view.AbstractView": [],
   "Ext.view.BoundList": [
     "Ext.BoundList"
@@ -801,9 +797,12 @@ Ext.ClassManager.addNameAlternateMappings({
     "Ext.Window"
   ],
   "PWApp.Application": [],
+  "PWApp.controller.HelpController": [],
   "PWApp.controller.Main": [],
   "PWApp.controller.MapController": [],
+  "PWApp.controller.ScoreCardController": [],
   "PWApp.controller.TestFieldController": [],
+  "PWApp.controller.filterEditController": [],
   "PWApp.model.TestFieldModel": [],
   "PWApp.store.TestFieldStore": [],
   "PWApp.view.MapView": [],
@@ -815,8 +814,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "PWApp.view.wksp.FilterHolder": [],
   "PWApp.view.wksp.LegendView": [],
   "PWApp.view.wksp.Workspace": [],
-  "PWApp.view.wksp.WorkspaceView": [],
-  "countryWindow": []
+  "PWApp.view.wksp.WorkspaceView": []
 });
 Ext.ClassManager.addNameAliasMappings({
   "Ext.AbstractComponent": [],
@@ -1712,14 +1710,8 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.AGC": [
     "widget.agc"
   ],
-  "Ext.ux.ArcMapPanel": [
-    "widget.arcmappanel"
-  ],
-  "Ext.ux.ArcMapView": [
-    "widget.arcmapview"
-  ],
-  "Ext.ux.ArcMapView2": [
-    "widget.arcmapview2"
+  "Ext.ux.AGC-old": [
+    "widget.agc-old"
   ],
   "Ext.view.AbstractView": [],
   "Ext.view.BoundList": [
@@ -1745,9 +1737,12 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.window"
   ],
   "PWApp.Application": [],
+  "PWApp.controller.HelpController": [],
   "PWApp.controller.Main": [],
   "PWApp.controller.MapController": [],
+  "PWApp.controller.ScoreCardController": [],
   "PWApp.controller.TestFieldController": [],
+  "PWApp.controller.filterEditController": [],
   "PWApp.model.TestFieldModel": [],
   "PWApp.store.TestFieldStore": [],
   "PWApp.view.MapView": [
@@ -1777,8 +1772,7 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "PWApp.view.wksp.WorkspaceView": [
     "widget.workspaceview"
-  ],
-  "countryWindow": []
+  ]
 });
 Ext.setVersion("ext-theme-base", "4.2.2");
 Ext.setVersion("ext-theme-classic", "4.2.2");

@@ -18,13 +18,13 @@ Ext.define('PWApp.view.Viewport', {
         // },
         {
 //            xtype: 'workspace',
-            xtype: 'userlist',
-            region: 'west',
-            collapsible: true,
-            split: true,
-            width: 300
-        },
-        {
+        //     xtype: 'userlist',
+        //     region: 'west',
+        //     collapsible: true,
+        //     split: true,
+        //     width: 300
+        // },
+        // {
             xtype: 'mapview',
             region: 'center'
         }

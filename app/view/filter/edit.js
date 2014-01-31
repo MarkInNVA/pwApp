@@ -6,81 +6,79 @@ Ext.define('PWApp.view.filter.edit', {
     layout: 'border',
     autoShow: true,
 	bodyPadding: 10,
-	x: 50,
-	y: 200,
-	height: 375,
+	x: 25,
+	y: 130,
+	height: 250,
 	width: 280,
 
     initComponent: function() {
-    	console.log('filter edit : initCompent')
+   // 	console.log('filter edit : initCompent')
         this.items = [
             {
                 xtype: 'form',
-				height: 350,
+				height: 225,
 				width: 250,
-	            layout: 'absolute',
+                bodyPadding: 10,
+	            layout: 'vbox',
 
                 items: [
-                {
-                    xtype: 'displayfield',
-                    fieldLabel: 'Map type',
-                    myNameIs: 'mapType',
-                    value: 'Cached',
-                    width: 75,
-                    x: 10, y: 10
-                },
-                {
-                    xtype: 'textfield',
-                    myNameIs: 'cField1',
-                    fieldLabel: 'Criteria 1',
-                    value: 'ph < 5.4',
-                    width: 175,
-                    x: 10, y: 50
-                }, 
-                {
-                    xtype: 'textfield',
-                    myNameIs: 'textField2',
-                    fieldLabel: 'Criteria 2',
-                    value: '',
-                    width: 175,
-                    x: 10, y: 90
 
-                },
-                {
-                    xtype: 'textfield',
-                    myNameIs: 'numberOfPoints',
-                    fieldLabel: 'Result Count',
-                    value: '',
-                    width: 175,
-                    x: 10, y: 130
-
-                },
-                {
-                    xtype: 'textfield',
-                    itemId: 'totalPointsId',
-                    fieldLabel: 'Total points in extent',
-                    value: '55',
-                    width: 175,
-                    x: 10, y: 170
-
-                }                ]
-            }
+                    {
+                        xtype: 'textfield',
+                        myNameIs: 'cField1',
+                        fieldLabel: 'Criteria 1',
+                        value: 'None',
+                        width: 175,
+          //              x: 10, y: 50
+                    }, 
+                    {
+                        xtype: 'textfield',
+                        myNameIs: 'textField2',
+                        fieldLabel: 'Criteria 2',
+                        value: '',
+                        width: 175,
+                    }
+                ]
+            }                            
         ];
 
         this.buttons = [
             {
-                text: 'Save',
-                action: 'save'
+                text: 'Submit',
+                handler: function() {
+                    var myVal = Ext.ComponentQuery.query('textfield[myNameIs=cField1]')[0];
+                    var criteria1 = myVal.getValue();
+                    // if (criteria1 == 'None') {
+                    //     criteria1 = '1=1'
+                    // }
+
+//                    console.log('cool answer is ',criteria1);
+
+                    var map = Ext.ComponentQuery.query('agc')[0];
+                    map.getCriteriaFromFilter(criteria1);
+
+                }
+//                action: 'save'
             },
-            // {
-            //     text: 'Reset',
-            //     handler: function() {
-            //         this.up('form').getForm().reset();
-            //         me.resetCacheMap();
-            //     }
-            // },
             {
-                text: 'Cancel',
+                text: 'Reset',
+                handler: function() {
+                    var myVal = Ext.ComponentQuery.query('textfield[myNameIs=cField1]')[0]; 
+                    myVal.setValue('None');
+                    myVal = Ext.ComponentQuery.query('textfield[myNameIs=textField2]')[0]; 
+                    myVal.setValue('');
+                    var map = Ext.ComponentQuery.query('agc')[0];
+                    map.getCriteriaFromFilter('None');
+                    // var fd = Ext.ComponentQuery.query("form");
+                    // console.log('form dom :', fd);
+                    // var f = fd.getForm();
+                    // console.log('form :',f)
+//                    this.up('form').getForm().reset();
+           //         me.resetCacheMap();
+                }
+            },
+            {
+                text: 'Close',
                 scope: this,
                 handler: this.close
             }

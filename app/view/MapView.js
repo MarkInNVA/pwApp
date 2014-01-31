@@ -29,7 +29,15 @@ Ext.define('PWApp.view.MapView', {
 						text: 'Filter',
 						itemId: 'showFilter'
 					},
-					{ 	xtype: 'tbspacer', width: 15 }, // add a 50px space
+					{
+						xtype: 'button',
+						text: 'Scorecard',
+						itemId: 'showScore'
+					},
+					//   spacer
+					{ 	
+						xtype: 'tbspacer', width: 25 
+					}, // add a 50px space
 					{
 						xtype: 'button',
 						text: 'Help',
