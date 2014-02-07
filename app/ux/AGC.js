@@ -58,7 +58,7 @@ Ext.define('Ext.ux.AGC', {
       		{ "level":  9, "resolution": 305.748113140558,  "scale": 1155581.108577   },
       		{ "level": 10, "resolution": 152.874056570411,  "scale": 577790.554289    },
       		{ "level": 11, "resolution": 76.43702828507324, "scale": 288895.277144    },
-      		{ "level": 12, "resolution": 38.21851414253662, "scale": 144447.638572    } //,
+      		{ "level": 12, "resolution": 38.21851414253662, "scale": 144447.638572    }, //,
       		// { "level": 13, "resolution": 19.1092570712683,  "scale": 72223.819286    },
       		// { "level": 14, "resolution": 9.55462853563415,  "scale": 36111.909643     }
 
