@@ -28,15 +28,14 @@ Ext.define('PWApp.view.filter.edit', {
                         myNameIs: 'cField1',
                         fieldLabel: 'Criteria 1',
                         value: 'None',
-                        width: 175,
-          //              x: 10, y: 50
+                        width: 175
                     }, 
                     {
                         xtype: 'textfield',
                         myNameIs: 'textField2',
                         fieldLabel: 'Criteria 2',
                         value: '',
-                        width: 175,
+                        width: 175
                     }
                 ]
             }                            
@@ -69,6 +68,8 @@ Ext.define('PWApp.view.filter.edit', {
                     myVal.setValue('');
                     var map = Ext.ComponentQuery.query('agc')[0];
                     map.getCriteriaFromFilter('None');
+                    var s = Ext.StoreManager.lookup('RecordStore');
+                    s.removeAll();
                     // var fd = Ext.ComponentQuery.query("form");
                     // console.log('form dom :', fd);
                     // var f = fd.getForm();

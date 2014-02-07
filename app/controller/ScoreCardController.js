@@ -44,47 +44,42 @@ Ext.define('PWApp.controller.ScoreCardController', {
 	                    fieldLabel: 'Map type',
 	                    myNameIs: 'mapType',
 	                    value: 'Cached',
-	                    width: 175,
-//	                    x: 10, y: 10
+	                    width: 175
 	                },
 	                {
 	                    xtype: 'textfield',
 	                    myNameIs: 'totalPoints',
 	                    fieldLabel: 'Total Pts',
 	                    value: '55',
-	                    width: 175,
-//	                    x: 10, y: 100
-
+	                    width: 175
 	                },
 	                {
 	                    xtype: 'textfield',
 	                    myNameIs: 'extentPoints',
 	                    fieldLabel: 'Pts in Extent',
 	                    value: '',
-	                    width: 175,
-//	                    x: 10, y: 50
-
+	                    width: 175
 	                },
 	                {
 	                    xtype: 'textfield',
 	                    myNameIs: 'criteria',
 	                    fieldLabel: 'Criteria',
 	                    value: '',
-	                    width: 175,
+	                    width: 175
 	                }, 
                     {
                         xtype: 'textfield',
                         myNameIs: 'criteriaFullCount',
                         fieldLabel: 'Crit. pts in full extent',
                         value: '0',
-                        width: 175,
+                        width: 175
                     }, 
                     {
                         xtype: 'textfield',
                         myNameIs: 'criteriaInExtCount',
                         fieldLabel: 'Crit. pts in current extent',
                         value: '0',
-                        width: 175,
+                        width: 175
                     }
 	            ]
 	         	

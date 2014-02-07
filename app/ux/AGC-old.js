@@ -15,7 +15,7 @@ Ext.define('Ext.ux.AGC-old', {
 
 		queryFilter: null,
 //    queryCriteria: null,
-    queryTask: null,
+    queryTask: null
 //    queryTaskCriteria: null
 	},
 	initComponent: function() {
@@ -63,7 +63,7 @@ Ext.define('Ext.ux.AGC-old', {
 				zoom: 1,
       	logo: false,
       	showAttribution:false,
-      	lods: lods,
+      	lods: lods
   //    	sliderStyle: "large"
           //  	wrapAround180: true
     	});

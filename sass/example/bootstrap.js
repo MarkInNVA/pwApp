@@ -800,12 +800,16 @@ Ext.ClassManager.addNameAlternateMappings({
   "PWApp.controller.HelpController": [],
   "PWApp.controller.Main": [],
   "PWApp.controller.MapController": [],
+  "PWApp.controller.RecordController": [],
   "PWApp.controller.ScoreCardController": [],
   "PWApp.controller.TestFieldController": [],
   "PWApp.controller.filterEditController": [],
+  "PWApp.model.RecordModel": [],
   "PWApp.model.TestFieldModel": [],
+  "PWApp.store.RecordStore": [],
   "PWApp.store.TestFieldStore": [],
   "PWApp.view.MapView": [],
+  "PWApp.view.RecordView": [],
   "PWApp.view.Viewport": [],
   "PWApp.view.filter.edit": [],
   "PWApp.view.help.HelpView": [],
@@ -1740,13 +1744,19 @@ Ext.ClassManager.addNameAliasMappings({
   "PWApp.controller.HelpController": [],
   "PWApp.controller.Main": [],
   "PWApp.controller.MapController": [],
+  "PWApp.controller.RecordController": [],
   "PWApp.controller.ScoreCardController": [],
   "PWApp.controller.TestFieldController": [],
   "PWApp.controller.filterEditController": [],
+  "PWApp.model.RecordModel": [],
   "PWApp.model.TestFieldModel": [],
+  "PWApp.store.RecordStore": [],
   "PWApp.store.TestFieldStore": [],
   "PWApp.view.MapView": [
     "widget.mapview"
+  ],
+  "PWApp.view.RecordView": [
+    "widget.recordview"
   ],
   "PWApp.view.Viewport": [],
   "PWApp.view.filter.edit": [

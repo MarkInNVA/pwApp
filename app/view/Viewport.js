@@ -17,14 +17,16 @@ Ext.define('PWApp.view.Viewport', {
         // html: 'List of fields will go here'
         // },
         {
-//            xtype: 'workspace',
-        //     xtype: 'userlist',
-        //     region: 'west',
-        //     collapsible: true,
-        //     split: true,
-        //     width: 300
-        // },
-        // {
+
+            xtype: 'recordview',
+            layout: 'fit',
+            region: 'south',
+            collapsible: true,
+            split: true,
+            height: 150,
+            html: 'Stuff will go here'
+        },
+        {
             xtype: 'mapview',
             region: 'center'
         }
