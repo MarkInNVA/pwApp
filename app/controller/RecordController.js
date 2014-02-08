@@ -13,20 +13,26 @@ Ext.define('PWApp.controller.RecordController', {
 
       this.control({
         'viewport > recordview': {
-          render: this.onRecordViewRendered
+          render: this.onRecordViewRendered,
+          itemdblclick: this.onGridDblClicked
         }
-      })
+      });
 
-			// this.application.on({
-   //      		updateTotalPoints: this.updateTotalPoints,
-   //          	scope: this
-   //      	});
+	// this.application.on({
+  //      		updateTotalPoints: this.updateTotalPoints,
+  //          	scope: this
+  //      	});
 
 		}
 	},
   onRecordViewRendered: function(e)  {
- //   console.log('onRecordViewRendered :', e);
+    console.log('onRecordViewRendered :', e);
+  },
+
+  onGridDblClicked: function(grid, record) {
+    console.log('Double clicked on,  record:', record.get('OBJECTID'));
   }
+
 // 	updateTotalPoints: function(count) {
 // 		console.log('Wells :', count);
 // 		// var t = Ext.getCmp('totalPointsId'); //.setValue(count);

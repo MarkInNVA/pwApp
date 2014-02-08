@@ -3,9 +3,16 @@ Ext.define('PWApp.Application', {
 
     extend: 'Ext.app.Application',
 
-    stores: [ 'RecordStore' ],   //  'TestFieldStore'
-    views : [ 'MapView', 'filter.edit', 'RecordView' ],   //   'testField.TestFieldView', 
-    controllers: [ 'MapController', 'filterEditController', 'HelpController', 'ScoreCardController' , 'RecordController' ],   // [ 'TestFieldController', 'Main'  ],
+    stores:         [   'RecordStore' ],  
+    views :         [   'MapView', 
+                        'filter.edit', 
+                        'RecordView' 
+                    ],  
+    controllers:    [   'MapController', 
+                        'filterEditController', 
+                        'HelpController', 
+                        'ScoreCardController' , 
+                        'RecordController' ],   // [ 'TestFieldController', 'Main'  ],
 
     launch: function() {
   //  	console.log('app launch');
