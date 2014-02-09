@@ -26,7 +26,7 @@ Ext.define('PWApp.controller.RecordController', {
 		}
 	},
   onRecordViewRendered: function(e)  {
-    console.log('onRecordViewRendered :', e);
+ //   console.log('onRecordViewRendered :', e);
   },
 
   onGridDblClicked: function(grid, record) {

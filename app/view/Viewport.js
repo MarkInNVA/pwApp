@@ -20,12 +20,18 @@ Ext.define('PWApp.view.Viewport', {
 
             xtype: 'recordview',
             layout: 'fit',
+            scroll: true,
             region: 'south',
             collapsible: true,
             split: true,
             height: 150,
             html: 'Stuff will go here'
         },
+        // {
+        //     xtype: 'fieldlist',
+        //     region: 'east',
+        //     width: 250
+        // },
         {
             xtype: 'mapview',
             region: 'center'

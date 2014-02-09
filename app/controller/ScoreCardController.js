@@ -94,7 +94,7 @@ Ext.define('PWApp.controller.ScoreCardController', {
 
 	},
 	updateTotals: function(tc, ec, mt, crit, critFullCnt, critInExtCnt) {
-		console.log('updateTotals, tc :', tc, ', ec :', ec, ', map type :', mt, ', crit : ', crit, ', crit full ext :', critFullCnt, ', crit in current ext :', critInExtCnt);
+//		console.log('updateTotals, tc :', tc, ', ec :', ec, ', map type :', mt, ', crit : ', crit, ', crit full ext :', critFullCnt, ', crit in current ext :', critInExtCnt);
 		var myVal = Ext.ComponentQuery.query('textfield[myNameIs=totalPoints]')[0]; 
 		myVal.setValue(tc);
 		myVal = Ext.ComponentQuery.query('textfield[myNameIs=extentPoints]')[0]; 

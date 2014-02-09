@@ -18,7 +18,8 @@ Ext.define('PWApp.view.RecordView', {
         stripeRows: true,
         enableTextSelection: true
     },
-    scroll: true,
+
+//    scroll: true,
    	initComponent: function() {
 //   		console.log('RecordView initComponent');
 
