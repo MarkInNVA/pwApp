@@ -8,6 +8,12 @@ Ext.define('PWApp.controller.filterEditController', {
     	views : [ 'MapView', 'filter.edit' ],
 
     	init : function() {
+        
+        this.control({
+            'filteredit #comboField' : {
+                select: this.comboFieldSelect
+            }
+        });
 
 //   		console.log('filterEditController : init');
 
@@ -17,12 +23,19 @@ Ext.define('PWApp.controller.filterEditController', {
    //      	});
 
 		}
-	},
-	updateTotalPoints: function(count) {
-		console.log('Wells :', count);
+  },
+  
+  comboFieldSelect: function(combo, records, eOpts) {
+//    console.log('edit-comboFieldSelect, combo:', combo, ', records: ', records, ', eOpts: ', eOpts);
+debugger
+    console.log('edit-comboFieldSelect, records: ', records[0].data.type ); //combo.data); // .data.type);
+  },
+
+  updateTotalPoints: function(count) {
+	 console.log('Wells :', count);
 		// var t = Ext.getCmp('totalPointsId'); //.setValue(count);
 //		var t = Ext.ComponentQuery.query('textfield#totalPointsId');
 
 //		Ext.ComponentQuery.query('textfield#totalPointsId')[0].setValue(count);
-	}
+  }
 });

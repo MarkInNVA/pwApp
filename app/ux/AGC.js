@@ -8,7 +8,7 @@ Ext.define('Ext.ux.AGC', {
 	},
 	config:{
 
-		map: null,
+		arcMap: null,
 		initialExtent: null,
 
     dyn_Well_Url: null,
@@ -58,9 +58,13 @@ Ext.define('Ext.ux.AGC', {
       		{ "level":  9, "resolution": 305.748113140558,  "scale": 1155581.108577   },
       		{ "level": 10, "resolution": 152.874056570411,  "scale": 577790.554289    },
       		{ "level": 11, "resolution": 76.43702828507324, "scale": 288895.277144    },
-      		{ "level": 12, "resolution": 38.21851414253662, "scale": 144447.638572    }, //,
-      		// { "level": 13, "resolution": 19.1092570712683,  "scale": 72223.819286    },
-      		// { "level": 14, "resolution": 9.55462853563415,  "scale": 36111.909643     }
+      		{ "level": 12, "resolution": 38.21851414253662, "scale": 144447.638572    },  
+      		{ "level": 13, "resolution": 19.1092570712683,  "scale": 72223.819286     },
+          { "level": 14, "resolution": 9.55462853563415,  "scale": 36111.909643     },
+          { "level": 15, "resolution": 4.77731426794937,  "scale": 18055.954822     },
+          { "level": 16, "resolution": 2.38865713397468,  "scale": 9027.977411      },
+          { "level": 17, "resolution": 1.19432856685505,  "scale": 4513.988705      }
+
       	];
 
       popup = esri.dijit.Popup({
@@ -83,18 +87,20 @@ Ext.define('Ext.ux.AGC', {
 
       map.on("load", function() {
 
-        me.setMap(map);
-        me.setInitialExtent(map.extent);
-        me.setCriteria('None');
+        me.setArcMap(map);
+        me.setInitialExtent(me.getArcMap().extent);
+        me.setCriteria('1=1');      // everything
 
         me.getTotalPointCount();
-        // setup store for combo box (creteria)
+
     	});
 
       var template = new esri.dijit.PopupTemplate({
           title: "Well",
-          description:"UNIQID: {UNIQID}<BR>API: {API}<BR>Well name: {WELLNAME}"
+          description:"UNIQID: {UNIQID}<BR>API: {API}<BR>Well name: {WELLNAME}<BR>TDS: {TDS}<BR>pH :{ph}<BR>BiCarb: {BICARB}<BR>Calcium: {CALCIUM}<BR>Chloride: {CHLORIDE}"
       });
+            // {header: 'Magnesium', dataIndex: 'MAGNESIUM', width: 125},
+            // {header: 'Potassium', dataIndex: 'POTASSIUM', width: 125}
 
       var dynamicLayer = new esri.layers.ArcGISDynamicMapServiceLayer( me.getDyn_Well_Url(), { 
           id: "points",
@@ -104,7 +110,7 @@ Ext.define('Ext.ux.AGC', {
 
       var tileLayer = new esri.layers.ArcGISTiledMapServiceLayer( me.getCache_Well_Url() ,{       
         id: 'tiles',
-        "opacity": 0.5
+        "opacity": 0.4
       });
 
       var featureLayer = new esri.layers.FeatureLayer( me.getFL_Well_Url(), { 
@@ -117,30 +123,20 @@ Ext.define('Ext.ux.AGC', {
 //          visible: true
       });      
 
-      featureLayer.on("click", function(e){
-        var a = e.graphic.attributes;
-//        var a = e.graphic.attributes;
-//        console.log('featureLayer clicked! e:', e)
-//        console.log('featureLayer clicked! e.graphic:', e.graphic)
- //       me.selectPoint(a.OBJECTID);
-        me.selectPoint(e.graphic);
+      featureLayer.on("click", function(evt){
+
+        me.selectPoint(evt.graphic);
 
       });
 
        map.on("layer-add-result", function (evt) {
-//          console.log('layer add , e:', evt);
-          if (evt.layer.id == 'wells') {
-            me.getCriteriaFromFilter('None');
-    //        console.log('layer add , e:', evt);
-//            me.dotheWork();
-///              var mm = map.getLayer('usa');
-            var s = Ext.StoreManager.lookup('FieldStore');
-            //  console.log('mm :', mm);
-      //      console.log('before s :',evt.layer.fields); 
-            s.add(evt.layer.fields);
-       //     console.log('after s :',s); 
-              //s.reload();
 
+        if (evt.layer.id == 'wells') {
+
+            var s = Ext.StoreManager.lookup('FieldStore');
+            s.add(evt.layer.fields);
+
+            me.processExtentOrCriteriaChange('1=1');
           }
        });
 
@@ -150,7 +146,7 @@ Ext.define('Ext.ux.AGC', {
 
       map.on("extent-change", function(e){
         if (me.getCriteria() == null) {
-          me.setCriteria('None')
+          me.setCriteria('1=1');  // everything
         }
 //        console.log('map.on extent-change, crit :',me.getCriteria())
         me.getPopup().hide();
@@ -158,8 +154,8 @@ Ext.define('Ext.ux.AGC', {
         var recStore = Ext.StoreManager.lookup('RecordStore');
         recStore.removeAll();
 
-        me.getCriteriaFromFilter(me.getCriteria())
-  //      me.dotheWork();
+//        me.getCriteriaFromFilter(me.getCriteria())
+        me.processExtentOrCriteriaChange(me.getCriteria());
       });
 
 		}
@@ -167,142 +163,148 @@ Ext.define('Ext.ux.AGC', {
 		dojo.ready(init);
 	},
 
-
-  // checkCrit < 1000, checkCrit  = 0, checkExtent = doesn't matter  --> do it  
-  // checkCrit < 1000, checkCrit != 0, checkExtent < 1000  -->  do it
-
-  // checkCrit < 1000, checkCrit != 0, checkExtent => 1000  -->  no way
-  // checkCrit > 1000, checkCrit = anything, checkExtent = anything  -->  no way
-
-  dotheWork: function() {
+  setMap: function() {
     var me = this;
+    var theMap = me.getArcMap();
+
+//    console.log('setMap :', theMap);
+
+    var flayer = theMap.getLayer('wells');
+    var clayer = theMap.getLayer('tiles');
+
     var qt = new esri.tasks.QueryTask(me.getFL_Well_Url() );
     var q  = new esri.tasks.Query();
-    var criteria = me.getCriteria();
-    var e = me.getMap();
 
-    if (e && criteria) { // if map and criteria
-   //   console.log('dotheWork, work is being done. c :',criteria);
-      var flayer = e.getLayer('wells');
-      var clayer = e.getLayer('tiles');
-
-//      me.getCritInExtCnt(c); // doesn't do much if c == 'None', resets crit counters
-   
-      q.geometry = e.extent;
-      qt.executeForCount(q, function(count){    // get points in extent, no criteria
-        me.setExtentCount(count);
-
-        var checkCrit = me.getCriteriaInExtentCount();
-        var checkExtent = me.getExtentCount()
-        var dblCheck = false;
-        if (checkCrit < 1000) {
-          if (checkCrit == 0) {  // 0 = no criteria
-            if (checkExtent < 1000) {
-              dblCheck = true;
-            } else {
-              dblCheck = false;
-            }
-
-          } else {
-              dblCheck = true;
-          }
-        } else {
-          dblCheck = false;
-        }
-        
-  //      console.log( 'dblCheck :', dblCheck, ', count in extent :', count); 
-        if ( dblCheck ) {
-  //        console.log('count (pts in extent) or criteria in extent< 1000, cnt :', me.getExtentCount(),', in ext :', me.getCriteriaInExtentCount());
-
-          if (criteria != 'None') {
-            flayer.setDefinitionExpression(criteria);
-          } else {
-            flayer.setDefinitionExpression('1=1'); // else q.where='1=1';
-          }; 
-
-//          console.log('q :',q, 'e.extent :', e.extent);
-          
-          flayer.selectFeatures(q,esri.layers.FeatureLayer.SELECTION_NEW, function(results) {
-//            console.log('doing selectFeatures result:', results);
-            var b= [];
-            Ext.Array.each(results, function(name, index, resultsItSelf) {
-              b.push(name.attributes);
-//              console.log('name :', name, ', index :', index );
-            });
-
-            var s = Ext.StoreManager.lookup('RecordStore');
-            s.removeAll();
-              //console.log('s :',s); 
-            s.add(b);
-          //    s.reload();
-
-          })
-
-          clayer.setVisibility(false);
-
-          me.setMapType("Dynamic");
-        } else {
- //         console.log('count => 1000');
-
-          flayer.setDefinitionExpression('1=2');
-          flayer.selectFeatures(q,esri.layers.FeatureLayer.SELECTION_NEW, function(results) {
-      //      console.log('resetting selectFeatures result:', results);
-          })
-          clayer.setVisibility(true);
-
-          me.setMapType("Cache");
-        }
-
-      PWApp.app.fireEvent('countUpdate', me.getTotalCount(), me.getExtentCount(), 
-                me.getMapType(), criteria , me.getCriteriaFullExtentCount(), me.getCriteriaInExtentCount()  );
-
-      });
+    flayer.clear();
+    clayer.setVisibility(false);
+//    console.log('setMap 2');
+    
+    if (me.getCriteria() == '1=1'){
+      // nothing
+      flayer.setDefinitionExpression('1=1')
     } else {
- //     console.log('Not doing the work, no map! criteria :',criteria , ', e :',e)
+      flayer.setDefinitionExpression(me.getCriteria() );
+      
     }
+    q.geometry = theMap.extent;
+          
+    flayer.selectFeatures(q,esri.layers.FeatureLayer.SELECTION_NEW, function(results) {
+//    console.log('doing selectFeatures result:', results);
+      var b= [];
+      Ext.Array.each(results, function(name, index, resultsItSelf) {
+        b.push(name.attributes);
+//      console.log('name :', name, ', index :', index );
+      });
+
+      var s = Ext.StoreManager.lookup('RecordStore');
+      s.removeAll();
+      //console.log('s :',s); 
+      s.add(b);
+
+    })
+
+    me.setMapType("Cache");
+
+    PWApp.app.fireEvent('countUpdate', me.getTotalCount(), me.getExtentCount(), 
+      me.getMapType(), me.getCriteria() , me.getCriteriaFullExtentCount(), me.getCriteriaInExtentCount()  );
+
   },
 
-  getCriteriaFromFilter: function(criteria) {  // really from app/filter/edit.js
-    var  me = this;
-    this.setCriteria(criteria);
-
-    // console.log('getCriteriaFromFilter, criteria:',criteria)
-    if (criteria == 'None') {  // resetting scorecard & config
-
-      me.setCriteriaInExtentCount(0);
-      me.setCriteriaFullExtentCount(0);
-      me.dotheWork();
+  // have total point count, get points in current extent, get count with criteria in current extent, get total with criteria
+  //  
+  resetMap: function() {
+    var me = this;
+    var theMap = me.getArcMap();
+    var flayer = theMap.getLayer('wells');
+    var clayer = theMap.getLayer('tiles');
+    var cnt;
+    if (me.getCriteria() == '1=1') {
+      cnt = me.getExtentCount();
     } else {
-      var qt = new esri.tasks.QueryTask(this.getFL_Well_Url() );
-      var q  = new esri.tasks.Query(); 
-      var m = this.getMap();
-      var l = m.getLayer('wells').fullExtent;;
+      cnt = me.getCriteriaInExtentCount();
+    }
+//     if (cnt > 50000) {
+//       clayer.opacity = .4;
+// console.log('cnt :', cnt, ', op: .4' );
+//     };
+//     if (cnt < 50000 && cnt > 25000) {
+//       clayer.opacity = .6;
+// console.log('cnt :', cnt, ', op: .6' );
+//     } ;
+//     if (cnt <  25001) {
+//       clayer.opacity = .8;
+// console.log('cnt :', cnt, ', op: .8' );
+//     } ;
+    
+    flayer.clear();
+//    console.log('resetMap, after clear flayer :', flayer);
+    clayer.setVisibility(true);
+    me.setMapType("Cache");    
 
-      q.where = criteria;
+    PWApp.app.fireEvent('countUpdate', me.getTotalCount(), me.getExtentCount(), 
+      me.getMapType(), me.getCriteria() , me.getCriteriaFullExtentCount(), me.getCriteriaInExtentCount()  );
 
-      // console.log('getCriteriaFromFilter getting ready!  l.extent :', l, ', criteria :', criteria, 'm :', m);
-      q.geometry = l.fullExtent;
-      qt.executeForCount(q, function(count) {    // get total points with criteria
-  //      console.log('getCriteriaFromFilter, get full crit : ',count)
-        me.setCriteriaFullExtentCount(count);
-                
-      }).then(function() {
-        var qt2 = new esri.tasks.QueryTask(me.getFL_Well_Url());
-        var q2  = new esri.tasks.Query(); 
+    // console.log('resetMap -  total count :', me.getTotalCount(), ', count in extent', me.getExtentCount(), 
+    //   ', map type :', me.getMapType(), ', criteria :', me.getCriteria(), ', criteria full extent :', 
+    //   me.getCriteriaFullExtentCount(), ', criteria in extent :', me.getCriteriaInExtentCount()  );
+  },
 
-        q2.geometry = m.extent;
-        q2.where = criteria;
-        // console.log('getCriteriaFromFilter - then set up for setCriteriaInExtentCount ');
- 
-        qt2.executeForCount(q2, function(count) {   // get points with criteria in extent
-          me.setCriteriaInExtentCount(count);
-          // console.log('getCriteriaFromFilter - then setCriteriaInExtentCount :: ',count);
-        }).then(function() {
-          me.dotheWork();
-        // console.log('getCriteriaFromFilter - then - then - dothework');
-        }); 
-//                  me.getCritInExtCnt(me.getCriteria() );
-      })
+  processExtentOrCriteriaChange: function(criteria) {
+    var me = this;
+    var qt = new esri.tasks.QueryTask(me.getFL_Well_Url() );
+    var q  = new esri.tasks.Query(); 
+    var theMap = this.getArcMap();
+
+    me.setCriteria(criteria)    
+    if (theMap == null) {
+      console.log('processExtentOrCriteriaChange - no map')
+    } else {
+ //     console.log('processExtentOrCriteriaChange - map:', theMap);
+      me.getPopup().hide();
+      q.geometry = theMap.extent;  // in current extent
+      qt.executeForCount(q, function(count){            //  get points in current extent, no criteria
+        me.setExtentCount(count);
+        if (me.getCriteria() == '1=1') {  //   no criteria
+
+          me.setCriteriaInExtentCount(0);
+          me.setCriteriaFullExtentCount(0);
+
+          if ( count < 1000) {
+          //  console.log('count < 1000');
+            me.setMap();
+          } else {
+          //  console.log('count not < 1000');
+            me.resetMap();
+          }
+        } else {   // have criteria
+
+          q.where = me.getCriteria();  // in criteria, in extent
+          q.geometry = theMap.extent;  // in current extent
+
+          qt.executeForCount(q, function(count) {       //  get points in current extent with criteria
+            me.setCriteriaInExtentCount(count);
+//            console.log('pts in current ext/crit :', count)
+          }).then(function() {
+            var a = me.getArcMap().getLayer('wells').fullExtent;
+  //          console.log('full ext : ', a)
+            q.geometry = me.getArcMap().getLayer('wells').fullExtent; // in criteria, in full extent
+            qt.executeForCount(q, function(count) {     //  get total points with criteria
+              me.setCriteriaFullExtentCount(count);
+    //          console.log('pts in full ext/crit :', count)
+            }).then(function() {
+              if ( me.getCriteriaInExtentCount() < 1000 ) {
+              //  console.log('count < 1000');
+                me.setMap();
+              } else {
+              //  console.log('count not < 1000');
+                me.resetMap();
+              }
+            })
+          })  // then
+
+        }
+    })
+
     }
   },
 
@@ -314,11 +316,12 @@ Ext.define('Ext.ux.AGC', {
     q.where = '1=1';
     qt.executeForCount(q, function(results) {
       me.setTotalCount(results);
+  //    console.log('total count:',results)
     });
   },
 
 	setInitExtent: function() {
-		this.map.setExtent(this.getInitialExtent());
+		this.getArcMap().setExtent(this.getInitialExtent());
 	},
 
 	onResize: function() {    // keeps map & screen coordinated
@@ -330,7 +333,7 @@ Ext.define('Ext.ux.AGC', {
   },
   selectPoint: function(objId) {
     var me = this;
-    var map = this.getMap();
+    var map = this.getArcMap();
     var fl = map.getLayer("wells");
     var q = new esri.tasks.Query();
     var p = this.getPopup();
@@ -350,8 +353,9 @@ Ext.define('Ext.ux.AGC', {
       var i=0,len=featureSet.features.length;
       for (; i<len; ) { 
         ans = s.find('OBJECTID', featureSet.features[i].attributes.OBJECTID);
-        console.log('popup p:', ans);
-          
+        console.log('ans :', ans)
+        console.log('popup objectId:', featureSet.features[i].attributes.OBJECTID );
+        me.pv.getSelectionModel().select(ans);
         //  console.log('selMod :', pv.getSelectionModel()); // .select(ans);
         i++;
       }

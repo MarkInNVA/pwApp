@@ -15,6 +15,8 @@ Ext.define('PWApp.view.filter.edit', {
 
     initComponent: function() {
    // 	console.log('filter edit : initCompent')
+
+
         var fieldStore = Ext.StoreManager.lookup('FieldStore');
         var mathStore = {
                 fields: ['op' ],
@@ -38,24 +40,6 @@ Ext.define('PWApp.view.filter.edit', {
 	            layout: 'vbox',
 
                 items: [
-                        {
-                            width:25
-                        },
-
-                    // {
-                    //     xtype: 'textfield',
-                    //     myNameIs: 'cField1',
-                    //     fieldLabel: 'Criteria 1',
-                    //     value: 'None',
-                    //     width: 175
-                    // }, 
-                    // {
-                    //     xtype: 'textfield',
-                    //     myNameIs: 'textField2',
-                    //     fieldLabel: 'Criteria 2',
-                    //     value: '',
-                    //     width: 175
-                    // }, 
                     {
                         layout: 'hbox',
                         bodyPadding: 10,
@@ -63,14 +47,17 @@ Ext.define('PWApp.view.filter.edit', {
                         items: [
                             {
                                 xtype: 'combo',
-                                myNameIs: 'combo1',
+                                myNameIs: 'comboField',
+                                allowBlank: false,
+                              //  blankText: 
+                                itemId: 'comboField',
                                 store: fieldStore,
                                 queryMode: 'local',
                                 forceSelection: true,
                              //   editable: false,
                                 displayField: 'name',
                                 valueField: 'name',
-                                shadow: true,
+                             //   shadow: true,
               //          fieldLabel: 'Combo 1',
                                 width: 125
 
@@ -83,7 +70,7 @@ Ext.define('PWApp.view.filter.edit', {
                                 myNameIs: 'comboMath',
                                 store: mathStore ,
                                 forceSelection: true,
-                                editable: false,
+                                //editable: false,
                                 queryMode: 'local',
                                 displayField: 'op',
                                 valueField: 'op',
@@ -113,7 +100,7 @@ Ext.define('PWApp.view.filter.edit', {
                 text: 'Submit',
                 handler: function() {
           //          var myVal = Ext.ComponentQuery.query('textfield[myNameIs=cField1]')[0];
-                    var v1 = Ext.ComponentQuery.query('textfield[myNameIs=combo1]')[0].value;
+                    var v1 = Ext.ComponentQuery.query('textfield[myNameIs=comboField]')[0].value;
                     var v2 = Ext.ComponentQuery.query('textfield[myNameIs=comboMath]')[0].value;
                     var v3 = Ext.ComponentQuery.query('textfield[myNameIs=textField3]')[0].value;
                     var v4 = v1 + ' ' + v2 + ' ' + v3;
@@ -127,8 +114,8 @@ Ext.define('PWApp.view.filter.edit', {
 //                    console.log('cool answer is ',criteria1);
 
                     var map = Ext.ComponentQuery.query('agc')[0];
-                    map.getCriteriaFromFilter(v4);
-
+//                    map.getCriteriaFromFilter(v4);
+                    map.processExtentOrCriteriaChange(v4);
                 }
 //                action: 'save'
             },
@@ -139,14 +126,15 @@ Ext.define('PWApp.view.filter.edit', {
                     // myVal.setValue('None');
                     // myVal = Ext.ComponentQuery.query('textfield[myNameIs=textField2]')[0]; 
                     // myVal.setValue('');
-                    // myVal = Ext.ComponentQuery.query('textfield[myNameIs=textField3]')[0]; 
-                    // myVal.setValue('');                    
-                    var myVal = Ext.ComponentQuery.query('textfield[myNameIs=combo1]')[0]; 
+                    var myVal = Ext.ComponentQuery.query('textfield[myNameIs=comboField]')[0]; 
                     myVal.reset();
+                    myVal = Ext.ComponentQuery.query('textfield[myNameIs=textField3]')[0]; 
+                    myVal.setValue('');                    
+
                     myVal = Ext.ComponentQuery.query('textfield[myNameIs=comboMath]')[0]; 
                     myVal.reset();
                     var map = Ext.ComponentQuery.query('agc')[0];
-                    map.getCriteriaFromFilter('None');
+                    map.processExtentOrCriteriaChange('1=1');  // everything
                     var s = Ext.StoreManager.lookup('RecordStore');
                     s.removeAll();
                     // var fd = Ext.ComponentQuery.query("form");

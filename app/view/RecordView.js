@@ -18,6 +18,8 @@ Ext.define('PWApp.view.RecordView', {
         stripeRows: true,
         enableTextSelection: true
     },
+    width:500,
+    height:250,
 
 //    scroll: true,
    	initComponent: function() {
@@ -25,19 +27,19 @@ Ext.define('PWApp.view.RecordView', {
 
         this.columns = [
 
-            {header: 'ObjectId',  dataIndex: 'OBJECTID',  flex: 1},
-            {header: 'UniqId',  dataIndex: 'UNIQID',  flex: 1},
-            {header: 'Well Name',  dataIndex: 'WELLNAME',  flex: 1},
-            {header: 'API',  dataIndex: 'API',  flex: 1},
-            {header: 'STATE',  dataIndex: 'STATE',  flex: 1},
-            {header: 'TDS',  dataIndex: 'TDS',  flex: 1},
-            {header: 'pH', dataIndex: 'pH', flex: 1},
-            {header: 'Sample date', dataIndex: 'SAMPDATE', flex: 1},
-            {header: 'BiCarb', dataIndex: 'BICARB', flex: 1},
-            {header: 'Calcium', dataIndex: 'CALCIUM', flex: 1},
-            {header: 'Chloride', dataIndex: 'CHLORIDE', flex: 1},
-            {header: 'Magnesium', dataIndex: 'MAGNESIUM', flex: 1},
-            {header: 'Potassium', dataIndex: 'POTASSIUM', flex: 1}
+            {header: 'ObjectId',  dataIndex: 'OBJECTID', width:125},
+            {header: 'UniqId',  dataIndex: 'UNIQID', width:125},
+            {header: 'Well Name',  dataIndex: 'WELLNAME', width:225},
+            {header: 'API',  dataIndex: 'API', width:125},
+            {header: 'STATE',  dataIndex: 'STATE', width:125},
+            {header: 'TDS',  dataIndex: 'TDS', width:125},
+            {header: 'pH', dataIndex: 'pH', width:125},
+            {header: 'Sample date', dataIndex: 'SAMPDATE', width:125},
+            {header: 'BiCarb', dataIndex: 'BICARB', width:125},
+            {header: 'Calcium', dataIndex: 'CALCIUM', width: 125},
+            {header: 'Chloride', dataIndex: 'CHLORIDE', width: 125},
+            {header: 'Magnesium', dataIndex: 'MAGNESIUM', width: 125},
+            {header: 'Potassium', dataIndex: 'POTASSIUM', width: 125}
         ];
 
         this.callParent(arguments);
