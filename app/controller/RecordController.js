@@ -14,7 +14,7 @@ Ext.define('PWApp.controller.RecordController', {
       this.control({
         'viewport > recordview': {
           render: this.onRecordViewRendered,
-          itemdblclick: this.onGridDblClicked
+          itemclick: this.onGridDblClicked
         }
       });
 
@@ -31,6 +31,9 @@ Ext.define('PWApp.controller.RecordController', {
 
   onGridDblClicked: function(grid, record) {
     console.log('Double clicked on,  record:', record.get('OBJECTID'));
+    var map = Ext.ComponentQuery.query('agc')[0];
+    map.selectPoint(record.data.OBJECTID);
+    console.log('comp agc :', Ext.ComponentQuery.query('agc') );
   }
 
 // 	updateTotalPoints: function(count) {

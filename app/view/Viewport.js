@@ -12,8 +12,12 @@ Ext.define('PWApp.view.Viewport', {
 
     items: [
         // {
-        // xtype: 'userlist',
+        // xtype: 'storetestlist',
         // title: 'Fields',
+        // scroll: true,
+        // region: 'east',
+        // collapsible: true,
+
         // html: 'List of fields will go here'
         // },
         {

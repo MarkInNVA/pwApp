@@ -3,13 +3,21 @@ Ext.define('PWApp.Application', {
 
     extend: 'Ext.app.Application',
 
-    stores:         [   'RecordStore', 'FieldStore' ],
+    stores:         [   'RecordStore', 
+                        'FieldStore', 
+                        'GeolAgeStore'
+                    ],
     
     views :         [   'MapView', 
                         'filter.edit', 
                         'RecordView',
-                        'TestFieldView' 
+                        'TestFieldView',
+                        'StoreTestList' 
                     ],
+
+    // models:         [    doesn't seem to help
+    //                     'GeolAgeModel'
+    //                 ],
 
     controllers:    [   'MapController', 
                         'filterEditController', 

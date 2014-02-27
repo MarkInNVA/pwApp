@@ -18,6 +18,8 @@ Ext.define('PWApp.view.filter.edit', {
 
 
         var fieldStore = Ext.StoreManager.lookup('FieldStore');
+        var geolAgeStore = Ext.StoreManager.lookup('GeolAgeStore');
+        geolAgeStore.filter('eyeColor', 'Brown');
         var mathStore = {
                 fields: ['op' ],
             data  : [
@@ -29,8 +31,21 @@ Ext.define('PWApp.view.filter.edit', {
                 {op: 'between' }
             ]
         };
-
-        console.log('store :', fieldStore);
+        var stateStore = {
+                fields: [ 'abbr' ],
+            data  : [
+                { abbr: 'KY'   },
+                { abbr: 'MD'   },
+                { abbr: 'NY'   },
+                { abbr: 'OH'   },
+                { abbr: 'PA'   },
+                { abbr: 'TN'   },
+                { abbr: 'W.VA' },
+                { abbr: 'WV'   }
+            ]
+        };
+        console.log('store.proxy.url :', geolAgeStore.getProxy().url);
+        console.log('store :', geolAgeStore);
         this.items = [
             {
                 xtype: 'form',
@@ -90,6 +105,57 @@ Ext.define('PWApp.view.filter.edit', {
                             }
 
                         ]
+                    },
+                    {
+                        layout: 'hbox',
+                        bodyPadding: 10,
+                        //padding: 10,
+                        items: [
+                            {
+                                xtype: 'combo',
+                                myNameIs: 'acomboField',
+                                allowBlank: false,
+                              //  blankText: 
+                                itemId: 'acomboField',
+                                store: geolAgeStore,
+                                queryMode: 'local',
+                                forceSelection: false,
+                                editable: true,
+                                displayField: 'GEOLAGE',
+                              //  valueField: 'GEOLAGE',
+                             //   shadow: true,
+              //          fieldLabel: 'Combo 1',
+                                width: 125
+
+                            },
+                            {
+                                width: 15
+                            },
+                            {
+                                xtype: 'combo',
+                                myNameIs: 'acomboMath',
+                                store: mathStore ,
+                                forceSelection: true,
+                                //editable: false,
+                                queryMode: 'local',
+                                displayField: 'op',
+                                valueField: 'op',
+              //          fieldLabel: 'Combo 1',
+                                width: 50
+
+                            },
+                            {
+                                width: 15
+                            }, 
+                            {
+                                xtype: 'textfield',
+                                myNameIs: 'textFielda3',
+                              //  fieldLabel: 'Criteria 2',
+                                value: '',
+                                width: 50
+                            }
+
+                        ]
                     }
                 ]
             }                            
@@ -104,7 +170,8 @@ Ext.define('PWApp.view.filter.edit', {
                     var v2 = Ext.ComponentQuery.query('textfield[myNameIs=comboMath]')[0].value;
                     var v3 = Ext.ComponentQuery.query('textfield[myNameIs=textField3]')[0].value;
                     var v4 = v1 + ' ' + v2 + ' ' + v3;
-                    console.log('mine :', v4); // , ', v1 :', v1, ', v2 :', v2, ', v3 :', v3, ', v4 :', v4);
+                    var v5 = "GEOLAGE like '" + Ext.ComponentQuery.query('textfield[myNameIs= acomboField]')[0].rawValue + "'";
+                    console.log('mine :', v4 + 'AND' + v5);
                    // var criteria1 = v4;
 //                    var criteria1 = myVal.getValue();
                     // if (criteria1 == 'None') {
@@ -115,7 +182,7 @@ Ext.define('PWApp.view.filter.edit', {
 
                     var map = Ext.ComponentQuery.query('agc')[0];
 //                    map.getCriteriaFromFilter(v4);
-                    map.processExtentOrCriteriaChange(v4);
+                    map.processExtentOrCriteriaChange(v4 + ' AND ' + v5, 'filter-submit');
                 }
 //                action: 'save'
             },
@@ -134,7 +201,7 @@ Ext.define('PWApp.view.filter.edit', {
                     myVal = Ext.ComponentQuery.query('textfield[myNameIs=comboMath]')[0]; 
                     myVal.reset();
                     var map = Ext.ComponentQuery.query('agc')[0];
-                    map.processExtentOrCriteriaChange('1=1');  // everything
+                    map.processExtentOrCriteriaChange('1=1', 'filter-reset');  // everything
                     var s = Ext.StoreManager.lookup('RecordStore');
                     s.removeAll();
                     // var fd = Ext.ComponentQuery.query("form");

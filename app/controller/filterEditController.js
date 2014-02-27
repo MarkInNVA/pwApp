@@ -27,7 +27,7 @@ Ext.define('PWApp.controller.filterEditController', {
   
   comboFieldSelect: function(combo, records, eOpts) {
 //    console.log('edit-comboFieldSelect, combo:', combo, ', records: ', records, ', eOpts: ', eOpts);
-debugger
+//debugger
     console.log('edit-comboFieldSelect, records: ', records[0].data.type ); //combo.data); // .data.type);
   },
 

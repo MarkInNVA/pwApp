@@ -801,11 +801,14 @@ Ext.ClassManager.addNameAlternateMappings({
   "PWApp.controller.ScoreCardController": [],
   "PWApp.controller.filterEditController": [],
   "PWApp.model.FieldModel": [],
+  "PWApp.model.GeolAgeModel": [],
   "PWApp.model.RecordModel": [],
   "PWApp.store.FieldStore": [],
+  "PWApp.store.GeolAgeStore": [],
   "PWApp.store.RecordStore": [],
   "PWApp.view.MapView": [],
   "PWApp.view.RecordView": [],
+  "PWApp.view.StoreTestList": [],
   "PWApp.view.TestFieldView": [],
   "PWApp.view.Viewport": [],
   "PWApp.view.filter.edit": [],
@@ -1744,14 +1747,19 @@ Ext.ClassManager.addNameAliasMappings({
   "PWApp.controller.ScoreCardController": [],
   "PWApp.controller.filterEditController": [],
   "PWApp.model.FieldModel": [],
+  "PWApp.model.GeolAgeModel": [],
   "PWApp.model.RecordModel": [],
   "PWApp.store.FieldStore": [],
+  "PWApp.store.GeolAgeStore": [],
   "PWApp.store.RecordStore": [],
   "PWApp.view.MapView": [
     "widget.mapview"
   ],
   "PWApp.view.RecordView": [
     "widget.recordview"
+  ],
+  "PWApp.view.StoreTestList": [
+    "widget.storetestlist"
   ],
   "PWApp.view.TestFieldView": [
     "widget.fieldlist"
