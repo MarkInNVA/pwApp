@@ -5,7 +5,7 @@ Ext.define('PWApp.view.RecordView', {
 
     requires:[ 'Ext.layout.container.Fit' ], 
 
-    title: 'Aavailable records',
+    title: 'Available samples in extent, meeting criteria. (max samples shown is 1,000)',
 
 	// layout:{
 	// 	type: 'hbox',
@@ -28,10 +28,10 @@ Ext.define('PWApp.view.RecordView', {
         this.columns = [
             {header: 'ID',  dataIndex: 'OBJECTID',  width:60},
             {header: 'API',  dataIndex: 'API',  width:100},
-            {header: 'Latitude',  dataIndex: 'LAT',  width:70},
-            {header: 'Longitude',  dataIndex: 'LONG_',  width:70},
-            {header: 'STATE',  dataIndex: 'STATE',  width:60},
-            {header: 'Well Type',  dataIndex: 'WELLTYPE',  width:80},
+            {header: 'Latitude',  dataIndex: 'LAT',  width:65},
+            {header: 'Longitude',  dataIndex: 'LONG_',  width:65},
+            {header: 'STATE',  dataIndex: 'STATE',  width:55},
+            {header: 'Well Type',  dataIndex: 'WELLTYPE',  width:60},
             {header: 'Formation',  dataIndex: 'FORMATION',  width:100},
             {header: 'Geologic Age',  dataIndex: 'GEOLAGE',  width:100},
             {header: 'Upper Depth',  dataIndex: 'UPPERDEPTH',  width:80},

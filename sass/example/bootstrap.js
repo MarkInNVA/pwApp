@@ -801,16 +801,23 @@ Ext.ClassManager.addNameAlternateMappings({
   "PWApp.controller.ScoreCardController": [],
   "PWApp.controller.filterEditController": [],
   "PWApp.model.FieldModel": [],
+  "PWApp.model.FormationModel": [],
   "PWApp.model.GeolAgeModel": [],
   "PWApp.model.RecordModel": [],
+  "PWApp.store.ChemStore": [],
   "PWApp.store.FieldStore": [],
+  "PWApp.store.FormationStore": [],
   "PWApp.store.GeolAgeStore": [],
+  "PWApp.store.MathStore": [],
   "PWApp.store.RecordStore": [],
+  "PWApp.store.StateStore": [],
+  "PWApp.store.WellTypeStore": [],
   "PWApp.view.MapView": [],
   "PWApp.view.RecordView": [],
   "PWApp.view.StoreTestList": [],
   "PWApp.view.TestFieldView": [],
   "PWApp.view.Viewport": [],
+  "PWApp.view.filter.ChemLineView": [],
   "PWApp.view.filter.edit": [],
   "countryWindow": []
 });
@@ -1747,11 +1754,17 @@ Ext.ClassManager.addNameAliasMappings({
   "PWApp.controller.ScoreCardController": [],
   "PWApp.controller.filterEditController": [],
   "PWApp.model.FieldModel": [],
+  "PWApp.model.FormationModel": [],
   "PWApp.model.GeolAgeModel": [],
   "PWApp.model.RecordModel": [],
+  "PWApp.store.ChemStore": [],
   "PWApp.store.FieldStore": [],
+  "PWApp.store.FormationStore": [],
   "PWApp.store.GeolAgeStore": [],
+  "PWApp.store.MathStore": [],
   "PWApp.store.RecordStore": [],
+  "PWApp.store.StateStore": [],
+  "PWApp.store.WellTypeStore": [],
   "PWApp.view.MapView": [
     "widget.mapview"
   ],
@@ -1765,6 +1778,9 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.fieldlist"
   ],
   "PWApp.view.Viewport": [],
+  "PWApp.view.filter.ChemLineView": [
+    "widget.filter.chemlineview"
+  ],
   "PWApp.view.filter.edit": [
     "widget.filteredit"
   ],

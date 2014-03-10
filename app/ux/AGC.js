@@ -11,9 +11,9 @@ Ext.define('Ext.ux.AGC', {
 		arcMap: null,
 		initialExtent: null,
 
-    dyn_Well_Url: null,
-    cache_Well_Url: null,
-    fL_Well_Url: null,
+    dyn_Well_Url: "http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app3/MapServer",
+    fL_Well_Url: "http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app3/MapServer/0",
+    cache_Well_Url: "http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app3_cache/MapServer",
 
     extentCount: null,
     totalCount: null,
@@ -33,10 +33,16 @@ Ext.define('Ext.ux.AGC', {
     dojo.require("esri.dijit.PopupTemplate");
     dojo.require("esri.dijit.Popup");
 //    dojo.require("dojo.Deferred");
+//    http://eerscmap.usgs.gov/arcgis/rest/services/pw/pw_20140219/MapServer
+//    http://eerscmap.usgs.gov/arcgis/rest/services/pw/pw_20140219_Cached/MapServer
 
-    this.setDyn_Well_Url("http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app3/MapServer") ;
-    this.setFL_Well_Url( "http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app3/MapServer/0");
-    this.setCache_Well_Url("http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app3_cache/MapServer");
+    // this.setDyn_Well_Url("http://eerscmap.usgs.gov/arcgis/rest/services/pw/pw_20140219/MapServer") ;
+    // this.setFL_Well_Url( "http://eerscmap.usgs.gov/arcgis/rest/services/pw/pw_20140219/MapServer/0");
+    // this.setCache_Well_Url("http://eerscmap.usgs.gov/arcgis/rest/services/pw/pw_20140219_Cached/MapServer");
+
+    // this.setDyn_Well_Url("http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app3/MapServer") ;
+    // this.setFL_Well_Url( "http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app3/MapServer/0");
+    // this.setCache_Well_Url("http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app3_cache/MapServer");
 	},
   
 	afterRender: function(t, eOpts){
@@ -72,6 +78,7 @@ Ext.define('Ext.ux.AGC', {
         titleInBody: false
       }, Ext.Element(document.createElement('div')) );
 
+      popup.resize(350,300); // w,h
       me.setPopup(popup);
 
     	map = new esri.Map(local_id, {
@@ -98,9 +105,9 @@ Ext.define('Ext.ux.AGC', {
 
       var template = new esri.dijit.PopupTemplate({
           title: "Well",
-          description:"ID: {OBJECTID}<BR>API: {API}<BR>Latitude: {LAT}<BR>Longitude: {LONG_}<BR>State: {STATE}<BR>Well type: {WELLTYPE}<BR>" +
+          description:"ID: {OBJECTID}<BR>API: {API}<BR>Latitude: {LAT}<BR>Longitude: {LONG_}" +
           "Formation :{FORMATION}<BR>Geologic Age: {GEOLAGE}<BR>Upper depth: {UPPERDEPTH}<BR>Lower depth: {LOWERDEPTH}" + 
-          " <BR>Reference: {REFERENCE}<BR>TDS: {TDS}<BR>TOC: {TOC}"
+          " <BR>TDS: {TDS}<BR>TOC: {TOC}<BR>Calcium: {CALCIUM}<BR>Chloride: {CHLORID}<BR>Sodium: {SODIUM}"
       });
         // {name: 'ID', type: 'int'},  
         // {name: 'API', type: 'string'}, 
@@ -128,15 +135,15 @@ Ext.define('Ext.ux.AGC', {
         // {name: 'd13C', type: 'float'},         
         // {name: 'd18O', type: 'float'} 
 
-      var dynamicLayer = new esri.layers.ArcGISDynamicMapServiceLayer( me.getDyn_Well_Url(), { 
-          id: "points",
-          opacity: 0.7 ,
-          visible: false
-      });
+      // var dynamicLayer = new esri.layers.ArcGISDynamicMapServiceLayer( me.getDyn_Well_Url(), { 
+      //     id: "points",
+      //     opacity: 0.7 ,
+      //     visible: false
+      // });
 
       var tileLayer = new esri.layers.ArcGISTiledMapServiceLayer( me.getCache_Well_Url() ,{       
         id: 'tiles',
-        "opacity": 0.4
+        "opacity": 0.6
       });
 
       var featureLayer = new esri.layers.FeatureLayer( me.getFL_Well_Url(), { 
@@ -156,7 +163,7 @@ Ext.define('Ext.ux.AGC', {
 
       });
 
-       map.on("layer-add-result", function (evt) {
+      map.on("layer-add-result", function (evt) {
 
         if (evt.layer.id == 'wells') {
 
@@ -164,12 +171,8 @@ Ext.define('Ext.ux.AGC', {
             s.add(evt.layer.fields);
 
             me.processExtentOrCriteriaChange('1=1', 'map-add');
-          }
-       });
-
-//     map.addLayer(dynamicLayer);
-      map.addLayer(tileLayer);
-      map.addLayer(featureLayer);
+        }
+      });
 
       map.on("extent-change", function(e){
         if (me.getCriteria() == null) {
@@ -184,6 +187,10 @@ Ext.define('Ext.ux.AGC', {
 //        me.getCriteriaFromFilter(me.getCriteria())
         me.processExtentOrCriteriaChange(me.getCriteria(), 'map-extent_change');
       });
+
+//     map.addLayer(dynamicLayer);
+      map.addLayer(tileLayer);
+      map.addLayer(featureLayer);
 
 		}
 
@@ -250,19 +257,7 @@ Ext.define('Ext.ux.AGC', {
     } else {
       cnt = me.getCriteriaInExtentCount();
     }
-//     if (cnt > 50000) {
-//       clayer.opacity = .4;
-// console.log('cnt :', cnt, ', op: .4' );
-//     };
-//     if (cnt < 50000 && cnt > 25000) {
-//       clayer.opacity = .6;
-// console.log('cnt :', cnt, ', op: .6' );
-//     } ;
-//     if (cnt <  25001) {
-//       clayer.opacity = .8;
-// console.log('cnt :', cnt, ', op: .8' );
-//     } ;
-    
+
     flayer.clear();
 //    console.log('resetMap, after clear flayer :', flayer);
     clayer.setVisibility(true);
@@ -360,36 +355,6 @@ Ext.define('Ext.ux.AGC', {
    		   m.resize();			
 		}
   },
-//   selectPoint: function(objId) {
-//     var me = this;
-//     var map = this.getArcMap();
-//     var fl = map.getLayer("wells");
-//     var q = new esri.tasks.Query();
-//     var p = this.getPopup();
-
-//     var pv = PWApp.app.getView('RecordView');
-//     var s  = PWApp.app.getStore('RecordStore');
-//     var ans;
-// //      console.log('selectPoint, p:',p);
-
-// //      q.objectIds = [objId];
-//     q.geometry = objId.geometry;
-//     fl.queryFeatures(q, function(featureSet) {
-//     //    console.log('featureSet f:', featureSet); 
-//       p.setFeatures(featureSet.features);
-//       console.log('featureSet f.length:', featureSet.features.length); 
-
-//       var i=0,len=featureSet.features.length;
-//       for (; i<len; ) { 
-//         ans = s.find('OBJECTID', featureSet.features[i].attributes.OBJECTID);
-// //        console.log('ans :', ans)
-// //        console.log('popup objectId:', featureSet.features[i].attributes.OBJECTID );
-//         me.pv.getSelectionModel().select(ans);
-//         //  console.log('selMod :', pv.getSelectionModel()); // .select(ans);
-//         i++;
-//       }
-//     }); 
-//   },
 
 selectPoint: function(objId) {
   var m = this.getArcMap();
@@ -409,15 +374,7 @@ selectPoint: function(objId) {
    });
  },
  selectGrid: function(objId, id) {
-   // var m = this.getArcMap();
-   // var fl = m.getLayer("wells");
-   // var q = new esri.tasks.Query();
-   // var p = this.getPopup();
-   // q.objectIds = [objId];
- //  fl.selectFeatures(q, esri.layers.FeatureLayer.SELECTION_NEW);
 
-//--------
-   //   console.log('a:',a,', b:',b,', c:',c);
     var pv = Ext.ComponentQuery.query('recordview')[0]; // PWApp.app.getApplication().getView('RecordView');
 //    var pv = this.getApointView();
     var s = PWApp.app.getStore('RecordStore');

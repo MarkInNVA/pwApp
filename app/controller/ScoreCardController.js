@@ -31,9 +31,9 @@ Ext.define('PWApp.controller.ScoreCardController', {
 	  		this.scoreWindow = Ext.create('Ext.window.Window', {
 	        	title : 'Scorecard',
 	        	height: 250,
-	        	width : 225,
+	        	width : 350,
 	        	x: 25,
-	        	y: 400,
+	        	y: 420,
 	        	bodyPadding: 10,
 	        	layout: 'vbox',
 	        	closeAction: 'hide',
@@ -44,42 +44,49 @@ Ext.define('PWApp.controller.ScoreCardController', {
 	                    fieldLabel: 'Map type',
 	                    myNameIs: 'mapType',
 	                    value: 'Cached',
-	                    width: 175
+	                    labelWidth:220,
+	                    width: 320
 	                },
 	                {
 	                    xtype: 'textfield',
 	                    myNameIs: 'totalPoints',
 	                    fieldLabel: 'Total Pts',
 	                    value: '55',
-	                    width: 175
+	                    labelWidth:220,
+	                    width: 320
 	                },
 	                {
 	                    xtype: 'textfield',
 	                    myNameIs: 'extentPoints',
 	                    fieldLabel: 'Pts in Extent',
 	                    value: '',
-	                    width: 175
+	                   	labelWidth:220,
+	                    width: 320
 	                },
 	                {
-	                    xtype: 'textfield',
+	                    xtype: 'textarea',
 	                    myNameIs: 'criteria',
 	                    fieldLabel: 'Criteria',
 	                    value: '',
-	                    width: 175
+	                    labelWidth:50,	                    
+	                    width: 320,
+	                    height: 60
 	                }, 
                     {
                         xtype: 'textfield',
                         myNameIs: 'criteriaFullCount',
                         fieldLabel: 'Crit. pts in full extent',
                         value: '0',
-                        width: 175
+	                    labelWidth:220,                        
+                        width: 320
                     }, 
                     {
                         xtype: 'textfield',
                         myNameIs: 'criteriaInExtCount',
                         fieldLabel: 'Crit. pts in current extent',
                         value: '0',
-                        width: 175
+                        labelWidth:220,
+                        width: 320
                     }
 	            ]
 	         	

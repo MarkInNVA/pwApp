@@ -1,8 +1,8 @@
-Ext.define('PWApp.store.GeolAgeStore', {
+Ext.define('PWApp.store.FormationStore', {
     extend: 'Ext.data.Store',
 
     requires: [
-        'PWApp.model.GeolAgeModel'
+        'PWApp.model.FormationModel'
     ],
 
     constructor: function(cfg) {
@@ -11,13 +11,13 @@ Ext.define('PWApp.store.GeolAgeStore', {
         me.callParent([Ext.apply({
             autoLoad: true,
             autoSync: true,
-            model: 'PWApp.model.GeolAgeModel',
-            storeId: 'GeolAgeStore',
+            model: 'PWApp.model.FormationModel',
+            storeId: 'FormationStore',
             remoteFilter: true,
  //           filters: [{property: 'id', value: 1}],
             proxy: {
                 type: 'ajax',
-                url: 'getDistinct.php?field=GEOLAGE',
+                url: 'getDistinct.php?field=FORMATION',
 //                url: 'getDistinct.php',
                 reader: {
                     type: 'json',

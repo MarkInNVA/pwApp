@@ -4,7 +4,7 @@
 $field = $_GET['field']; 
 //$where = $_GET['where'];
 
-$nURL = "http://eerscmap.usgs.gov/arcgis/rest/services/pw/pw_20140219/MapServer/0/query?";
+$nURL = "http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app3/MapServer/0/query?";
 // http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app3/MapServer/0/query?
 // http://eerscmap.usgs.gov/arcgis/rest/services/pw/pw_20140219/MapServer/0/query?
 // where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects
@@ -38,7 +38,7 @@ echo json_encode(array(
 //	'success' => true,
 //	'total' =>$json_cnt['count'],
 	'data' => $json_D['features'] ,
-	'filter' => $json_F[$_GET['filter']]
+//	'filter' => $json_F[$_GET['filter']]
 	)
 );
 
