@@ -2,8 +2,41 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
     <title>PWApp</title>
+
+<style>        
+        <!-- "Loading" Splash Screen Style -->
+        #loading-mask
+        {
+          position: absolute;
+          left:     0;
+          top:      0;
+          width:    100%;
+          height:   100%;
+          z-index:  20000;
+         <!-- background-color: #3892d3; -->
+        }
+
+
+        #loading-parent
+        {
+          position: absolute;
+          z-index:  20001;
+          height: 100%;
+          width: 100%;
+          padding-top: 140px;
+          color: white;
+          background-image:url("app/resources/images/paper.gif")
+
+        }
+    </style>
+
+    <link rel="stylesheet" href="app/resources/css/app.css">
+<!--    <link rel="stylesheet" href="PWApp.css" >   -->
+   
     <!-- <x-compile> -->
+            <link rel="stylesheet" href="PWApp.css">
         <!-- <x-bootstrap> -->
             <link rel="stylesheet" href="bootstrap.css">
             <script src="../ext/ext-dev.js"></script>
@@ -11,9 +44,23 @@
         <!-- </x-bootstrap> -->
         <script src="app.js"></script>
     <!-- </x-compile> -->
-    <link rel="stylesheet" href="PWApp.css" >
-    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css" id="AJS_css">
-    <script src="http://js.arcgis.com/3.8compact/" id="AJS_js"></script>
+
 </head>
-<body class="claro"></body>
+<body class="claro">
+    <div id="loading-mask"></div>
+    <div id="loading-parent">
+        <div id="loading-child" class="loading-indicator">
+            <center>
+                <img height="80" alt="Spinner" src="app/resources/images/c_USGSid.bmp" />
+            </center>
+        </div>
+    </div>
+</body>
+
+    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/dojo/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.8/js/esri/css/esri.css">
+
+    <script src="http://js.arcgis.com/3.8compact/" id="AJS_js"></script> 
+
 </html>
+

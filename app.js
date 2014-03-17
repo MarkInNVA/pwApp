@@ -11,9 +11,7 @@ Ext.Loader.setConfig({
 	}
 });
 
-//Ext.require([
-//    'Ext.ux.AGC'
-//]);
+
 
 
 Ext.application({
@@ -21,7 +19,21 @@ Ext.application({
 
     extend: 'PWApp.Application',
 
-    requires: ['Ext.ux.AGC'],
+    requires: ['Ext.ux.AGC', 'Ext.window.MessageBox' ],
     
-    autoCreateViewport: true
+    autoCreateViewport: true,
+
+    launch: function() {
+            listeners: {
+                afterrender: {
+                    // var mask = Ext.get('loading-mask'),
+                    //     parent = Ext.get('loading-parent');
+                    // // Destroy the masks
+                    // Ext.fly(mask).fadeOut({ duration: 1500, remove: true });
+                    // Ext.fly(parent).fadeOut({ duration: 1500, remove: true });
+                //    mask.fadeOut({callback: function(){ mask.destroy(); }});
+                //    parent.fadeOut({callback: function(){ parent.destroy(); }});
+                }
+            } // eo listeners
+}
 });

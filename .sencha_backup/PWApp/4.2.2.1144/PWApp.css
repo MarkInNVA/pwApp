@@ -4,3 +4,6 @@
     margin: 0px;
     padding: 0px;	
 }
+.esriPopup {
+	'z-index': 500
+}

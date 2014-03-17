@@ -1,74 +1,121 @@
 Ext.define('PWApp.controller.MapController', {
     extend: 'Ext.app.Controller',
+    requires: [ 'Ext.window.*', 
+                'Ext.toolbar.Spacer', 
+                'Ext.form.*', 
+                'Ext.layout.container.Absolute' 
+    ],
 
     config: {
+        myMap: null,
+        myFilter: null,
     	models: [ ],
     	stores: [ ],
-    	views : [ 'MapView' ],
-    	refs: {
-    		/* references to view components */
-    	},
-    	control: {
-    		/* attach event listeners here */
-			// '[myNameIs=initialExtent]' : {
-			// 	click: this.initialExtent
-			// }
-    	},
-    	init : function() {
-    		console.log('MapController : init');
+    	views : [ 'MapView', 'filter.edit' ],
+    	// refs: {
+    	// 	/* references to view components */
+    	// 	'ieButton' : 'mapview > initialExtent'
+    	// },
 
-    		this.filterWindow = Ext.create('Ext.window.Window', {
-	    		title: 'Filter',
-	    		header: {$color:'white'},
-	    		layout: 'border',
-	    		frame: true,
-	    		bodyBorder: true,
-	    		bodyPadding: 10,
-	    		x: 100,
-	    		y: 200,
-	        	closable: true,
-	        	resizable: true,
-	        	draggable: true,
-	    		height: 350,
-		    	width: 280,
-	    		closeAction: 'hide',
-//	    		items: [ form	]  
+    	init : function() {
+//    		console.log('MapController : init');
+
+			this.control({ 
+				'mapview  #initialExtent' : {
+					click: this.initialExtent
+				}
 			});
 
+			this.control({
+				'mapview #showFilter' : {
+					click: this.showFilter
+				}
+			});
 
+            this.control({
+                'mapview #baseMapSwitch > menu' : {
+                    click: this.baseMapSwitch
+                }
+            });
 
-		// this.control({
-		// 	'[myNameIs=help]' : {
-		// 		click: this.help
-		// 	}
-		// });
-
-
-		// this.control({
-		// 	'[myNameIs=showFilterPanel]' : {
-		// 		click: this.showFilterPanel
-		// 	}
-		// });
-
-		// this.application.on({
-  //       	haveNumberOfWells: this.haveWells,
-  //           scope: this
-  //       });
-
-		// this.application.on({
-  //       	updateTotalPoints: this.updateTotalPoints,
-  //           scope: this
-  //       });
-
- //       this.filterWindow.show();
-
+            this.control({
+                'mapview #showScorecard' : {
+                    click: this.showScorecard
+                }
+            });
     	}
     },
 
+    onLaunch: function() {
+    //  console.log('controller Main - launch');
+        //console.log('name :', this.getMyName())
+        this.setMyMap(Ext.ComponentQuery.query('agc')[0]);
+        this.setMyFilter(Ext.widget('filteredit'));
+ //     console.log('MyMapCont :', mapCont.getArcMap() );
+ //     console.log('MyMap :', this.getMyMap() );
+    },
+
     initialExtent: function() {
-    	console.log('initExtent')
-		var map = Ext.ComponentQuery.query('agc')[0];
-		map.setInitExtent();
-	}
-    /* event listener handler methods go here */
+    	//console.log('MapController : initExtent');
+		this.getMyMap().setInitExtent();
+        
+	},
+
+	showFilter: function() {
+//		console.log('MapController : showFilter visible :', this.getMyFilter().isVisible());
+        //var view = Ext.widget('filteredit');
+        if ( this.getMyFilter().isVisible() ) {
+            this.getMyFilter().hide();            
+        } else {
+            this.getMyFilter().show();
+        }
+  //      var t =  Ext.ComponentQuery.query('agc')[0].getCurrentCount();
+  //      console.log('t :', t)
+ //       Ext.ComponentQuery.query('textfield#totalPointsId')[0].setValue(t.getCurrentCount());
+
+	},
+
+    showScorecard: function() {
+   //   console.log('MapController : showScorecard');
+     //   var view = Ext.widget('filteredit');
+  //      var t =  Ext.ComponentQuery.query('agc')[0].getCurrentCount();
+  //      console.log('t :', t)
+ //       Ext.ComponentQuery.query('textfield#totalPointsId')[0].setValue(t.getCurrentCount());
+
+    },    
+    baseMapSwitch: function (t,e,eO) {
+        // console.log('main - switch, before e :', e, ', eO :',eO, ', t :', t);
+        // console.log( 'text : ', e.text );
+
+    //    var map = Ext.ComponentQuery.query('agc')[0];
+        // console.log('Map :', map);
+        // var s = map.getArcMap().getLayer('streets');
+        // var t = map.getArcMap().getLayer('topo');
+        // var o = map.getArcMap().getLayer('ocean');
+        // var n = map.getArcMap().getLayer('natgeo');
+
+        // s.hide();
+        // t.hide();
+        // o.hide();
+        // n.hide();
+
+        switch(e.text) {
+            case 'Streets':
+                this.getMyMap().getArcMap().setBasemap('streets')
+//                s.show();
+                break;
+            case 'Topo':
+                this.getMyMap().getArcMap().setBasemap('topo')
+  //              t.show();
+                break;
+            case 'Ocean':
+                this.getMyMap().getArcMap().setBasemap('oceans')
+    //            o.show();
+                break;
+            case 'Nat Geo':
+                this.getMyMap().getArcMap().setBasemap('national-geographic')
+      //          n.show();
+                break;
+        }
+    }    
 }); 

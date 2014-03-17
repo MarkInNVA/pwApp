@@ -11,11 +11,6 @@ Ext.Loader.addClassPathMappings({
   "Ext.ux.AGC": "../../app/ux/AGC.js",
   "Ext.ux.ArcMapPanel": "../../../ux/ArcMapPanel_abandoned.js",
   "PWApp": "../../app",
-  "PWApp.view.mapview.MapView": "../../app/view/old/mapview/MapView.js",
-  "PWApp.view.wksp.FilterHolder": "../../app/view/old/wksp/FilterHolder.js",
-  "PWApp.view.wksp.LegendView": "../../app/view/old/wksp/LegendView.js",
-  "PWApp.view.wksp.Workspace": "../../app/view/old/wksp/Workspace.js",
-  "PWApp.view.wksp.WorkspaceView": "../../app/view/old/wksp/WorkspaceView.js",
   "countryWindow": "../../../ux/ArcMapView2.js"
 });
 Ext.ClassManager.addNameAlternateMappings({
@@ -800,15 +795,30 @@ Ext.ClassManager.addNameAlternateMappings({
     "Ext.Window"
   ],
   "PWApp.Application": [],
-  "PWApp.controller.Main": [],
+  "PWApp.controller.HelpController": [],
   "PWApp.controller.MapController": [],
+  "PWApp.controller.RecordController": [],
+  "PWApp.controller.ScoreCardController": [],
+  "PWApp.controller.filterEditController": [],
+  "PWApp.model.FieldModel": [],
+  "PWApp.model.FormationModel": [],
+  "PWApp.model.GeolAgeModel": [],
+  "PWApp.model.RecordModel": [],
+  "PWApp.store.ChemStore": [],
+  "PWApp.store.FieldStore": [],
+  "PWApp.store.FormationStore": [],
+  "PWApp.store.GeolAgeStore": [],
+  "PWApp.store.MathStore": [],
+  "PWApp.store.RecordStore": [],
+  "PWApp.store.StateStore": [],
+  "PWApp.store.WellTypeStore": [],
   "PWApp.view.MapView": [],
+  "PWApp.view.RecordView": [],
+  "PWApp.view.StoreTestList": [],
+  "PWApp.view.TestFieldView": [],
   "PWApp.view.Viewport": [],
-  "PWApp.view.mapview.MapView": [],
-  "PWApp.view.wksp.FilterHolder": [],
-  "PWApp.view.wksp.LegendView": [],
-  "PWApp.view.wksp.Workspace": [],
-  "PWApp.view.wksp.WorkspaceView": [],
+  "PWApp.view.filter.ChemLineView": [],
+  "PWApp.view.filter.edit": [],
   "countryWindow": []
 });
 Ext.ClassManager.addNameAliasMappings({
@@ -1738,26 +1748,41 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.window"
   ],
   "PWApp.Application": [],
-  "PWApp.controller.Main": [],
+  "PWApp.controller.HelpController": [],
   "PWApp.controller.MapController": [],
+  "PWApp.controller.RecordController": [],
+  "PWApp.controller.ScoreCardController": [],
+  "PWApp.controller.filterEditController": [],
+  "PWApp.model.FieldModel": [],
+  "PWApp.model.FormationModel": [],
+  "PWApp.model.GeolAgeModel": [],
+  "PWApp.model.RecordModel": [],
+  "PWApp.store.ChemStore": [],
+  "PWApp.store.FieldStore": [],
+  "PWApp.store.FormationStore": [],
+  "PWApp.store.GeolAgeStore": [],
+  "PWApp.store.MathStore": [],
+  "PWApp.store.RecordStore": [],
+  "PWApp.store.StateStore": [],
+  "PWApp.store.WellTypeStore": [],
   "PWApp.view.MapView": [
     "widget.mapview"
   ],
+  "PWApp.view.RecordView": [
+    "widget.recordview"
+  ],
+  "PWApp.view.StoreTestList": [
+    "widget.storetestlist"
+  ],
+  "PWApp.view.TestFieldView": [
+    "widget.fieldlist"
+  ],
   "PWApp.view.Viewport": [],
-  "PWApp.view.mapview.MapView": [
-    "widget.mapview"
+  "PWApp.view.filter.ChemLineView": [
+    "widget.filter.chemlineview"
   ],
-  "PWApp.view.wksp.FilterHolder": [
-    "widget.filterHolder"
-  ],
-  "PWApp.view.wksp.LegendView": [
-    "widget.legendView"
-  ],
-  "PWApp.view.wksp.Workspace": [
-    "widget.workspace"
-  ],
-  "PWApp.view.wksp.WorkspaceView": [
-    "widget.workspaceview"
+  "PWApp.view.filter.edit": [
+    "widget.filteredit"
   ],
   "countryWindow": []
 });

@@ -10,14 +10,14 @@ Ext.define('PWApp.Application', {
                     ],
     
     views :         [   'MapView',          'RecordView',
-                        'filter.edit',      'filter.ChemLineView'
-                           
+                        'filter.edit',      'filter.ChemLineView',
+                        'LegendView'                           
 //                        'TestFieldView',  'StoreTestList' 
                     ],
 
     controllers:    [   'MapController',    'filterEditController', 
                         'HelpController',   'ScoreCardController', 
-                        'RecordController' 
+                        'RecordController', 'LegendController' 
                     ],  
 
     launch: function() {

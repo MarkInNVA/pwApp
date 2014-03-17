@@ -22,19 +22,38 @@ Ext.define('PWApp.view.MapView', {
 					{
 						xtype: 'button',
 						text: 'Initial Extent',
-						myNameIs: 'initialExtent'
+						itemId: 'initialExtent'
 					},
 					{
 						xtype: 'button',
 						text: 'Filter',
-						myNameIs: 'showFilterPanel'
+						itemId: 'showFilter'
 					},
-					{ 	xtype: 'tbspacer', width: 15 }, // add a 50px space
+					{
+						xtype: 'button',
+						text: 'Basemap',
+						itemId: 'baseMapSwitch',
+						anchorSize:75,
+					    menu: [    	
+						        {text: 'Topo' },
+						        {text: 'Streets' },
+						        {text: 'Ocean' },
+						        {text: 'Nat Geo' }
+					    ]
+					},
+					{
+						xtype: 'button',
+						text: 'Scorecard',
+						itemId: 'showScore'
+					},										
+					{ 	xtype: 'tbfill' },
 					{
 						xtype: 'button',
 						text: 'Help',
-						myNameIs: 'help'
-					}
+						itemId: 'help'
+					},
+					
+					{   xtype: 'tbspacer', width: 20  }
 				],
 				items:[
 					{

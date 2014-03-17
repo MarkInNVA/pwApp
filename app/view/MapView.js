@@ -22,7 +22,7 @@ Ext.define('PWApp.view.MapView', {
 					{
 						xtype: 'button',
 						text: 'Initial Extent',
-						myNameIs: 'initialExtent'
+						itemId: 'initialExtent'
 					},
 					{
 						xtype: 'button',
@@ -40,7 +40,17 @@ Ext.define('PWApp.view.MapView', {
 						        {text: 'Ocean' },
 						        {text: 'Nat Geo' }
 					    ]
-					},					
+					},
+					{
+						xtype: 'button',
+						text: 'Scorecard',
+						itemId: 'showScore'
+					},										
+					{
+						xtype: 'button',
+						text: 'Legend',
+						itemId: 'showLegend'
+					},										
 					{ 	xtype: 'tbfill' },
 					{
 						xtype: 'button',

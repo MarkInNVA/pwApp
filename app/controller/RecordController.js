@@ -3,6 +3,10 @@ Ext.define('PWApp.controller.RecordController', {
     requires: [  ],
 
     config: {
+      myMap: null,
+      myRecordView: null,
+      // myNotReadyMessage:
+      // myReadyMessage:
     	models: [ ],
     	stores: [ 'RecordStore' ],
     	views : [ 'RecordView'],
@@ -14,33 +18,99 @@ Ext.define('PWApp.controller.RecordController', {
       this.control({
         'viewport > recordview': {
           render: this.onRecordViewRendered,
-          itemclick: this.onGridDblClicked
+          itemclick: this.onItemClicked
         }
       });
 
-	// this.application.on({
-  //      		updateTotalPoints: this.updateTotalPoints,
-  //          	scope: this
-  //      	});
+	   this.application.on({
+            countUpdate: this.updateCount,
+              scope: this
+      });
+
+
+     this.application.on({
+            haveTotalPoints: this.updateTotal,
+              scope: this
+      });
 
 		}
 	},
+
+  onLaunch: function() {
+  //  console.log('controller Main - launch');
+    //console.log('name :', this.getMyName())
+    this.setMyMap(Ext.ComponentQuery.query('agc')[0]);
+    this.setMyRecordView(Ext.ComponentQuery.query('recordview')[0])[0];
+//     console.log('MyMapCont :', mapCont.getArcMap() );
+//     console.log('MyMap :', this.getMyMap() );
+  },  
+
   onRecordViewRendered: function(e)  {
  //   console.log('onRecordViewRendered :', e);
   },
 
-  onGridDblClicked: function(grid, record) {
- //   console.log('Double clicked on,  record:', record.get('OBJECTID'));
-    var map = Ext.ComponentQuery.query('agc')[0];
-    map.selectPoint(record.data.OBJECTID);
-//    console.log('comp agc :', Ext.ComponentQuery.query('agc') );
+  onItemClicked: function(grid, record) {
+    var me = this;
+    var map = this.getMyMap().getArcMap();
+
+ //   console.log('map :', map)
+    var fl = map.getLayer("wells");
+    var q = new esri.tasks.Query();
+    var p = this.getMyMap().getPopup();
+ //   console.log('popup :', p);
+
+      q.objectIds = [record.data.OBJECTID];
+      console.log('objId :', record.data.OBJECTID);
+      fl.queryFeatures(q, function(featureSet) {
+//         console.log("RecordController, onItemClicked");
+        console.log("RecordController, onItemClicked, featureset length :", featureSet.features.length);
+        me.getMyMap().selectPoint(featureSet.features[0]);  
+//        featureSet.features[0].getDojoShape().moveToFront();
+        var pp = new esri.geometry.Point(featureSet.features[0].geometry.x,featureSet.features[0].geometry.y,  featureSet.features[0].geometry.spatialReference);      
+
+        p.setFeatures(featureSet.features);
+        p.show(pp);
+     }); //.then(function( pp) {
+
+/////    or do it this way
+/////    this.getMyMap().selectPointFromGrid(record.data.OBJECTID);
+
+  },
+
+  updateTotal: function(tc) { 
+    // console.log('updateTotal :', tc);
+    // this.getMyRecordView().setTitle('Currently showing ' + tc + 
+    //   ' sample points on map. To activate map, reduce number of points to below 1,000, either by applying a filter or changing map extent (pan or zoom).');
+//    console.log('RV :' , this.getView('RecordView')[0]); // this.getRecordView());
+  },
+
+  updateCount: function(tc, ec, mt, crit, critFullCnt, critInExtCnt) { 
+    var message="";
+//    console.log('updateCount :', tc, ', ec :', ec, 'critInExtCnt :', critInExtCnt, ', crit :', crit );
+    if (crit == '1=1') {
+      if (ec < 1000) {
+        message =  ec + ' samples visible' 
+      } else {
+        message = ec + ' samples visible.'         
+        message += ' For sample details, reduce number of samples to below 1000,' 
+        + ' either by applying a filter or changing map extent (pan or zoom).';
+      }
+
+    } else {
+
+      
+      if(critInExtCnt < 1000) {
+        message = critInExtCnt + ' samples visible'
+      } else {
+        message = critInExtCnt + ' sample visible.';  
+        message += ' For sample details, reduce number of samples to below 1000, ' 
+        + ' either by applying a filter or changing map extent (pan or zoom).';
+
+      }
+    }
+    this.getMyRecordView().setTitle(message); 
+      
+//    console.log('RV :' , this.getView('RecordView')[0]); // this.getRecordView());
   }
 
-// 	updateTotalPoints: function(count) {
-// 		console.log('Wells :', count);
-// 		// var t = Ext.getCmp('totalPointsId'); //.setValue(count);
-// //		var t = Ext.ComponentQuery.query('textfield#totalPointsId');
-
-// //		Ext.ComponentQuery.query('textfield#totalPointsId')[0].setValue(count);
-// 	}
 });

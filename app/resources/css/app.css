@@ -1,0 +1,11 @@
+#myBusy {
+	'z-index': 1500;
+	position: absolute;
+	left: 100px;
+	top: 150px;
+	height: 300px;
+	width:300px;
+		
+}
+
+

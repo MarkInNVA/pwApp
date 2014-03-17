@@ -5,7 +5,7 @@ Ext.define('PWApp.view.RecordView', {
 
     requires:[ 'Ext.layout.container.Fit' ], 
 
-    title: 'Available samples in extent, meeting criteria. (max samples shown is 1,000)',
+ //   title: 'Available samples in extent, meeting criteria. (max samples shown is 1,000)',
 
 	// layout:{
 	// 	type: 'hbox',
@@ -26,28 +26,28 @@ Ext.define('PWApp.view.RecordView', {
 //   		console.log('RecordView initComponent');
 
         this.columns = [
-            {header: 'ID',  dataIndex: 'OBJECTID',  width:60},
+            {header: 'ID',  dataIndex: 'OBJECTID',  width:70},
             {header: 'API',  dataIndex: 'API',  width:100},
-            {header: 'Latitude',  dataIndex: 'LAT',  width:65},
-            {header: 'Longitude',  dataIndex: 'LONG_',  width:65},
-            {header: 'STATE',  dataIndex: 'STATE',  width:55},
-            {header: 'Well Type',  dataIndex: 'WELLTYPE',  width:60},
-            {header: 'Formation',  dataIndex: 'FORMATION',  width:100},
-            {header: 'Geologic Age',  dataIndex: 'GEOLAGE',  width:100},
-            {header: 'Upper Depth',  dataIndex: 'UPPERDEPTH',  width:80},
-            {header: 'Lower Depth',  dataIndex: 'LOWERDEPTH',  width:80},
-            {header: 'Reference',  dataIndex: 'REFERENCE',  width:90},
-            {header: 'TDS',  dataIndex: 'TDS',  width:60},
-            {header: 'TOC',  dataIndex: 'TOC',  width:60},
-            {header: 'pH', dataIndex: 'PH', width:60},
+            {header: 'Latitude',  dataIndex: 'LAT',  width:70},
+            {header: 'Longitude',  dataIndex: 'LONG',  width:70},
+            {header: 'STATE',  dataIndex: 'STATE',  width:60},
+            {header: 'Well Type',  dataIndex: 'WELLTYPE',  width:80},
+            {header: 'Formation',  dataIndex: 'FORMATION',  width:125},
+            {header: 'Geologic Age',  dataIndex: 'GEOLAGE',  width:125},
+            {header: 'Upper Depth',  dataIndex: 'DEPTHUPPER',  width:80},
+            {header: 'Lower Depth',  dataIndex: 'DEPTHLOWER',  width:80},
+            {header: 'Reference',  dataIndex: 'REFERENCE',  width:125},
+            {header: 'TDS',  dataIndex: 'TDS',  width:75},
+            {header: 'TOC',  dataIndex: 'TOC',  width:75},
+            {header: 'pH', dataIndex: 'PH', width:75},
 
-            {header: 'ALKCACO3', dataIndex: 'ALKCACO3', width:60},
-            {header: 'Bromide', dataIndex: 'BROMIDE', width:60},
-            {header: 'Calcium', dataIndex: 'CALCIUM', width:60},
-            {header: 'Chloride', dataIndex: 'CHLORID', width:60},
-            {header: 'Potassium', dataIndex: 'POTASSM', width:60},
-            {header: 'Sodium', dataIndex: 'SODIUM', width:60},
-            {header: 'Sulfate', dataIndex: 'SULFATE', width:60},
+            {header: 'ALKCACO3', dataIndex: 'ALKCACO3', width:75},
+            {header: 'Bromide', dataIndex: 'Br', width:60},
+            {header: 'Calcium', dataIndex: 'Ca', width:60},
+            {header: 'Chloride', dataIndex: 'Cl', width:60},
+            {header: 'Potassium', dataIndex: 'K', width:60},
+            {header: 'Sodium', dataIndex: 'Na', width:60},
+            {header: 'Sulfate', dataIndex: 'SO4', width:60},
             {header: 'dD', dataIndex: 'dD', width:60},
             {header: 'd13C', dataIndex: 'd13C', width:60},
             {header: 'd180', dataIndex: 'd18O', width:60}
