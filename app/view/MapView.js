@@ -34,24 +34,24 @@ Ext.define('PWApp.view.MapView', {
 						text: 'Basemap',
 						itemId: 'baseMapSwitch',
 						anchorSize:75,
-					    menu: [    	
-						        {text: 'Topo' },
-						        {text: 'Streets' },
-						        {text: 'Ocean' },
-						        {text: 'Nat Geo' }
-					    ]
+						menu: [
+								{text: 'Topo' },
+								{text: 'Streets' },
+								{text: 'Ocean' },
+								{text: 'Nat Geo' }
+						]
 					},
 					{
 						xtype: 'button',
 						text: 'Scorecard',
 						itemId: 'showScore'
 					},										
-					{
-						xtype: 'button',
-						text: 'Legend',
-						itemId: 'showLegend'
-					},										
-					{ 	xtype: 'tbfill' },
+					// {
+					// 	xtype: 'button',
+					// 	text: 'Legend',
+					// 	itemId: 'showLegend'
+					// },										
+					{	xtype: 'tbfill' },
 					{
 						xtype: 'button',
 						text: 'Help',

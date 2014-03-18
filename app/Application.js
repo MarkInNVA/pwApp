@@ -6,7 +6,8 @@ Ext.define('PWApp.Application', {
     stores:         [   'RecordStore',      'FieldStore', 
                         'GeolAgeStore',     'ChemStore',
                         'MathStore',        'StateStore',
-                        'FormationStore',   'WellTypeStore'
+                        'FormationStore',   'WellTypeStore',
+                        'IDDBStore'
                     ],
     
     views :         [   'MapView',          'RecordView',
@@ -21,10 +22,5 @@ Ext.define('PWApp.Application', {
                     ],  
 
     launch: function() {
-  //  	console.log('app launch');
-    	// var m = Ext.ComponentQuery.query('agc')[0];
-    	// var mm = m.map.getLayer('points');
-    	// this.getStore('TestFieldStore').add(mm);
-
     }
 });

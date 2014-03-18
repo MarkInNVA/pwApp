@@ -13,8 +13,8 @@ Ext.define('Ext.ux.AGC', {
 		initialExtent: null,
 
    // dyn_Well_Url: "http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app4/MapServer",
-    fL_Well_Url: "http://eerscmap.usgs.gov/arcgis/rest/services/pw/pw_20140219/MapServer/0",
-    cache_Well_Url: "http://eerscmap.usgs.gov/arcgis/rest/services/pw/pw_20140219_Cached/MapServer",
+    fL_Well_Url: "http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app4iddb/MapServer/0",
+    cache_Well_Url: "http://igsaaaegaser003.er.usgs.gov/arcgis/rest/services/pw/pw_app4iddb_cache/MapServer",
 
     extentCount: null,
     totalCount: null,
@@ -64,21 +64,21 @@ Ext.define('Ext.ux.AGC', {
 
 		function init() {
 
-    	var lods = [
-//       		{ "level":  0, "resolution": 156543.033928000,  "scale": 591657527.591555 }, 
-//       		{ "level":  1, "resolution": 78271.5169639999,  "scale": 295828763.795777 }, 
-    		  { "level":  2, "resolution": 39135.7584820001,  "scale": 147914381.897889 }, 
-    		  { "level":  3, "resolution": 19567.8792409999,  "scale": 73957190.948944  }, 
-      		{ "level":  4, "resolution": 9783.93962049996,  "scale": 36978595.474472  }, 
-      		{ "level":  5, "resolution": 4891.96981024998,  "scale": 18489297.737236  }, 
-      		{ "level":  6, "resolution": 2445.98490512499,  "scale": 9244648.868618   }, 
-      		{ "level":  7, "resolution": 1222.99245256249,  "scale": 4622324.434309   },
-      		{ "level":  8, "resolution": 611.496226281380,  "scale": 2311162.217155   },
-      		{ "level":  9, "resolution": 305.748113140558,  "scale": 1155581.108577   },
-      		{ "level": 10, "resolution": 152.874056570411,  "scale": 577790.554289    },
-      		{ "level": 11, "resolution": 76.43702828507324, "scale": 288895.277144    },
-      		{ "level": 12, "resolution": 38.21851414253662, "scale": 144447.638572    },  
-      		{ "level": 13, "resolution": 19.1092570712683,  "scale": 72223.819286     },
+      var lods = [
+//        { "level":  0, "resolution": 156543.033928000,  "scale": 591657527.591555 }, 
+//        { "level":  1, "resolution": 78271.5169639999,  "scale": 295828763.795777 }, 
+          { "level":  2, "resolution": 39135.7584820001,  "scale": 147914381.897889 }, 
+          { "level":  3, "resolution": 19567.8792409999,  "scale": 73957190.948944  }, 
+          { "level":  4, "resolution": 9783.93962049996,  "scale": 36978595.474472  }, 
+          { "level":  5, "resolution": 4891.96981024998,  "scale": 18489297.737236  }, 
+          { "level":  6, "resolution": 2445.98490512499,  "scale": 9244648.868618   }, 
+          { "level":  7, "resolution": 1222.99245256249,  "scale": 4622324.434309   },
+          { "level":  8, "resolution": 611.496226281380,  "scale": 2311162.217155   },
+          { "level":  9, "resolution": 305.748113140558,  "scale": 1155581.108577   },
+          { "level": 10, "resolution": 152.874056570411,  "scale": 577790.554289    },
+          { "level": 11, "resolution": 76.43702828507324, "scale": 288895.277144    },
+          { "level": 12, "resolution": 38.21851414253662, "scale": 144447.638572    },  
+          { "level": 13, "resolution": 19.1092570712683,  "scale": 72223.819286     },
           { "level": 14, "resolution": 9.55462853563415,  "scale": 36111.909643     },
           { "level": 15, "resolution": 4.77731426794937,  "scale": 18055.954822     },
           { "level": 16, "resolution": 2.38865713397468,  "scale": 9027.977411      },
@@ -118,17 +118,18 @@ Ext.define('Ext.ux.AGC', {
       //   console.log('popup, counnt:', this.count)
       // }  );
 
-    	map = new esri.Map(local_id, {
-       	basemap: "topo", 
+      map = new esri.Map(local_id, {
+        basemap: "topo", 
         extent: myExt,
         fitExtent: true,
-      	logo: false,
-      	showAttribution:false,
-      	lods: lods,
+        logo: false,
+        showAttribution:false,
+        lods: lods,
         infoWindow: popup
-//    	  sliderStyle: "large"         //  	wrapAround180: true
-//        center: [-98.579500,39.828175],  // c. center of U.S. //      zoom: 3,
-    	});
+//      sliderStyle: "large"         
+//      wrapAround180: true
+//      center: [-98.579500,39.828175],  // c. center of U.S. //      zoom: 3,
+      });
 
       map.on("load", function() {
 
@@ -157,7 +158,7 @@ Ext.define('Ext.ux.AGC', {
         Ext.fly(parent).fadeOut({ duration: 1000, remove: true });
 
         me.showBusy();
-    	});
+      });
 
       map.on("layer-add-result", function (evt) {
 
@@ -174,7 +175,7 @@ Ext.define('Ext.ux.AGC', {
 
  //       PWApp.app.fireEvent('showBusy');
         
-        if (me.getCriteria() == null) {
+        if (me.getCriteria() === null) {
           me.setCriteria('1=1');  // everything
         }
 //        console.log('map.on extent-change, crit :',me.getCriteria())
@@ -240,7 +241,7 @@ console.log('fl click, evt: ',evt.graphic);
     
     if (me.getCriteria() == '1=1'){
       // nothing
-      flayer.setDefinitionExpression('1=1')
+      flayer.setDefinitionExpression('1=1');
     } else {
       flayer.setDefinitionExpression(me.getCriteria() );
       
@@ -255,14 +256,14 @@ console.log('fl click, evt: ',evt.graphic);
       Ext.Array.each(realResults, function(name, index, resultsItSelf) {
         b.push(name.attributes);
 //      console.log('name :', name, ', index :', index );
-        if (name.attributes.TDS == null) {
-          var fsNull = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, 9,
-                  new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-                  new dojo.Color([255,51,51]), 1.5),new dojo.Color([51,51,51,0.0]));
-          name.setSymbol(fsNull);
+        // if (name.attributes.TDS === null) {
+        //   var fsNull = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, 9,
+        //           new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
+        //           new dojo.Color([255,51,51]), 1.5),new dojo.Color([51,51,51,0.0]));
+        //   name.setSymbol(fsNull);
    //       console.log(name.attributes.OBJECTID, ' :', me.getBusyConf())
    //       me.getBusyConf().update([name.attributes.OBJECTID]);
-        }
+        // }
       });
 
       var s = Ext.StoreManager.lookup('RecordStore');
@@ -276,7 +277,7 @@ console.log('fl click, evt: ',evt.graphic);
 
 //      PWApp.app.fireEvent('showNotBusy');
  //     console.log('setMap busy');
-    })
+    });
 
     me.setMapType("Dynamic");
 
@@ -327,13 +328,13 @@ console.log('fl click, evt: ',evt.graphic);
     var theMap = this.getArcMap();
     
 //    console.log('processExtentOrCriteriaChange, criteria :', criteria, ', caller :', caller);
-    me.setCriteria(criteria)    
+    me.setCriteria(criteria);
     if (theMap ) {
 
  //     console.log('processExtentOrCriteriaChange - map:', theMap);
       if (me.getPopup()) {
         me.getPopup().hide();
-      };
+      }
 
       if (me.getCriteria() == '1=1') {  //   no criteria
 
@@ -353,8 +354,8 @@ console.log('fl click, evt: ',evt.graphic);
           } else {
           //  console.log('count not < 1000');
             me.resetMap();
-          };
-        })
+          }
+        });
       } else {   // have criteria
         me.setExtentCount(0);
         q.where = me.getCriteria();  // in criteria, in extent
@@ -392,10 +393,10 @@ console.log('fl click, evt: ',evt.graphic);
               //  console.log('count not < 1000');
                 me.resetMap();
               }
-            })
+            });
           }  // else
 
-        }) // then
+        }); // then
       } // else
 
     }
@@ -411,7 +412,7 @@ console.log('fl click, evt: ',evt.graphic);
     qt.executeForCount(q, function(results) {
       me.totalCount = results;
       me.setTotalCount(results);
-    })
+    });
   },
 
 	setInitExtent: function() {
@@ -421,7 +422,7 @@ console.log('fl click, evt: ',evt.graphic);
 	onResize: function() {    // keeps map & screen coordinated
     var m = this.getArcMap();
 		if (m) {
-   		   m.resize();			
+      m.resize();			
 		}
   },
 
@@ -435,7 +436,7 @@ console.log('fl click, evt: ',evt.graphic);
     q.geometry = graphic.geometry;
 
     fl.queryFeatures(q, function(featureSet) {
-    console.log("selectPoint, featureset length :", featureSet.features.length)
+    console.log("selectPoint, featureset length :", featureSet.features.length);
       p.setFeatures(featureSet.features);
      //p.show(pp);
     });
@@ -457,7 +458,7 @@ console.log('fl click, evt: ',evt.graphic);
 
       p.setFeatures(featureSet.features);
       p.show(pp);
-    })
+    });
   },
 
   selectGrid: function(id) {
@@ -482,7 +483,7 @@ console.log('fl click, evt: ',evt.graphic);
       if (t) {
         console.log('Popup selection change id:', t );
         m.selectGrid(t.attributes.OBJECTID);
-      };
+      }
     }
   },
 
@@ -499,7 +500,7 @@ console.log('fl click, evt: ',evt.graphic);
 //    console.log('showNotBusy before !');
     if (Ext.MessageBox) {
       Ext.MessageBox.hide();
-    };
+    }
 //    console.log('showNotBusy after');
 
   }

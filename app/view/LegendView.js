@@ -1,44 +1,45 @@
 Ext.define('PWApp.view.LegendView', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Ext.window.Window',
     alias: 'widget.legendview',
     itemId: 'legendview',
 
-    requires:[  ],
+    requires:[ 'Ext.layout.container.Fit' ],
+
     config: {
         myMap:null,
-        myId: null
+        myId: null,
+        layers: null
     },
 
 //    title: 'Panel',
-    layout: 'border',
-	bodyPadding: 10,
-    padding: 10,
+    layout: 'fit',
+	// bodyPadding: 10,
+//     padding: -10,
 	x: 25,
 	y: 120,
 	height: 225,
-	width: 225,
+	width: 205,
     closeAction: "hide",
-    floating: true,
-    frame:true,
+    // floating: true,
+    // frame:true,
 //    width: 350,
-  //  autoShow: true,
+//    autoShow: true,
 
     initComponent: function() {
-   // 	console.log('filter edit : initCompent')
+        me = this;
+//      console.log('filter edit : initCompent')
         var local_id = this.getId();
         this.setMyId(local_id);
 //        console.log('local_id :', local_id);
         var map = Ext.ComponentQuery.query('agc')[0];
         this.setMyMap(map);
+
         this.callParent(arguments);        
     },
     afterRender: function() {
         // console.log('after render');
-        // console.log('map :', this.getMyMap().getArcMap() );
-        var s = this.getMyMap().getArcMap().getLayer('wells');
 
-    // var mymap = this.getArcMap();
-    // var fl = mymap.getLayer("wells");
+        var s = this.getMyMap().getArcMap().getLayer('wells');
 
         var layers = [
             {
@@ -46,26 +47,36 @@ Ext.define('PWApp.view.LegendView', {
                 title: 'Total organic carbon'
             }
         ];
-// console.log('s :', layers);
+        this.setLayers(layers);
+
         var legend = new esri.dijit.Legend({
             map:this.getMyMap().getArcMap(),
             layerInfos: layers
+//        }, 'legendDiv' );
         },this.getMyId());
-        legend.startup();
 
+        legend.startup();
     },
 
-//     items : [
-//         {
-//             xtype: 'panel',
-// //            title: 'Legend',
-// //            autoScroll: true,
-// 			height: 200,
-// 			width: 340,
-//             bodyPadding: 5,
-//             layout: 'vbox',
-//         } ,
-                           
-//     ]
-    
+    // items : [
+    //     {
+    //         xtype: 'component',
+            // title: 'Legend',
+            // height:285,
+            // width: 275,
+//             items: [ 
+//                 {
+//                     xtype: 'panel',
+//                     // style: {
+//                     //     height:'100%',
+//                     //     width: '100%',
+//                     //     'z-index': 100
+//                     // },
+ //                  html: '<div id="legendDiv"  style="width: 260px; height: 250px;"> <div>',
+// //              //       height:225,
+// // //                    width:275
+//                 } 
+//             ]
+    //     }
+    // ]
 });

@@ -1,27 +1,14 @@
 Ext.define('PWApp.view.Viewport', {
     extend: 'Ext.container.Viewport',
-    requires:[
-        'Ext.layout.container.Border',
-        'Ext.layout.container.Fit'
-    ],
+
+    requires:[ 'Ext.layout.container.Border' ],
 
     layout: {
-//        type: 'fit'
         type: 'border'
     },
 
     items: [
-        // {
-        // xtype: 'storetestlist',
-        // title: 'Fields',
-        // scroll: true,
-        // region: 'east',
-        // collapsible: true,
-
-        // html: 'List of fields will go here'
-        // },
         {
-
             xtype: 'recordview',
             layout: 'fit',
             scroll: true,
@@ -31,11 +18,6 @@ Ext.define('PWApp.view.Viewport', {
             height: 150,
             html: 'Stuff will go here'
         },
-        // {
-        //     xtype: 'fieldlist',
-        //     region: 'east',
-        //     width: 250
-        // },
         {
             xtype: 'mapview',
             region: 'center'

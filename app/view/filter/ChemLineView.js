@@ -16,42 +16,42 @@ Ext.define('PWApp.view.filter.ChemLineView', {
 				bodyPadding: 5,
 				items:[
 					{
-				        xtype: 'combo',
-				        myNameIs: 'chemCombo', 
-				      //  itemId: 'chemCombo',
-				        store: chemStore,
-				        queryMode: 'local',
-				        forceSelection: false,
-				        editable: true,
-				        displayField: 'name',
-				        fieldLabel: 'Chem :',
-				        labelWidth: 40,
-				         width: 130
+						xtype: 'combo',
+						myNameIs: 'chemCombo', 
+						//  itemId: 'chemCombo',
+						store: chemStore,
+						queryMode: 'local',
+						forceSelection: false,
+						editable: true,
+						displayField: 'name',
+						valueField: 'alias',
+						fieldLabel: 'Chem :',
+						labelWidth: 40,
+						width: 130
 					},
-				    {   xtype: 'tbspacer', width: 5  },
-				    {
-				        xtype: 'combo',
-				        myNameIs: 'mathCombo',
-				        store: mathStore ,
-				        forceSelection: false,
-				        editable: true,
-				        queryMode: 'local',
-				        align: 'center',
-				        displayField: 'name',
-				        valueField: 'name',
-				        labelWidth:0,
-				        width: 70
+					{   xtype: 'tbspacer', width: 5  },
+					{
+						xtype: 'combo',
+						myNameIs: 'mathCombo',
+						store: mathStore ,
+						forceSelection: false,
+						editable: true,
+						queryMode: 'local',
+						align: 'center',
+						displayField: 'name',
+						valueField: 'name',
+						labelWidth:0,
+						width: 70
+					},
+					{   xtype: 'tbspacer', width: 5  },
 
-				    },
-				    {   xtype: 'tbspacer', width: 5  },
-				        
-				    {
-				        xtype: 'textfield',
-				        myNameIs: 'chemText',
-				      //  fieldLabel: 'Criteria 2',
-				        value: '',
-				        width: 75
-				    }
+					{
+						xtype: 'textfield',
+						myNameIs: 'chemText',
+						//	fieldLabel: 'Criteria 2',
+						value: '',
+						width: 75
+					}
 				]
 			}
 		];

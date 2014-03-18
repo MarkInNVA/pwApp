@@ -796,6 +796,7 @@ Ext.ClassManager.addNameAlternateMappings({
   ],
   "PWApp.Application": [],
   "PWApp.controller.HelpController": [],
+  "PWApp.controller.LegendController": [],
   "PWApp.controller.MapController": [],
   "PWApp.controller.RecordController": [],
   "PWApp.controller.ScoreCardController": [],
@@ -812,10 +813,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "PWApp.store.RecordStore": [],
   "PWApp.store.StateStore": [],
   "PWApp.store.WellTypeStore": [],
+  "PWApp.view.LegendView": [],
   "PWApp.view.MapView": [],
   "PWApp.view.RecordView": [],
-  "PWApp.view.StoreTestList": [],
-  "PWApp.view.TestFieldView": [],
   "PWApp.view.Viewport": [],
   "PWApp.view.filter.ChemLineView": [],
   "PWApp.view.filter.edit": [],
@@ -1749,6 +1749,7 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "PWApp.Application": [],
   "PWApp.controller.HelpController": [],
+  "PWApp.controller.LegendController": [],
   "PWApp.controller.MapController": [],
   "PWApp.controller.RecordController": [],
   "PWApp.controller.ScoreCardController": [],
@@ -1765,17 +1766,14 @@ Ext.ClassManager.addNameAliasMappings({
   "PWApp.store.RecordStore": [],
   "PWApp.store.StateStore": [],
   "PWApp.store.WellTypeStore": [],
+  "PWApp.view.LegendView": [
+    "widget.legendview"
+  ],
   "PWApp.view.MapView": [
     "widget.mapview"
   ],
   "PWApp.view.RecordView": [
     "widget.recordview"
-  ],
-  "PWApp.view.StoreTestList": [
-    "widget.storetestlist"
-  ],
-  "PWApp.view.TestFieldView": [
-    "widget.fieldlist"
   ],
   "PWApp.view.Viewport": [],
   "PWApp.view.filter.ChemLineView": [

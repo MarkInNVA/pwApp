@@ -17,12 +17,13 @@ Ext.define('PWApp.view.filter.edit', {
   //  autoShow: true,
 
     initComponent: function() {
-   // 	console.log('filter edit : initCompent')
+   //   console.log('filter edit : initCompent')
 
         var fieldStore = Ext.StoreManager.lookup('FieldStore');
-        var geolAgeStore = Ext.StoreManager.lookup('GeolAgeStore');
+  //      var geolAgeStore = Ext.StoreManager.lookup('GeolAgeStore');
         var formationStore = Ext.StoreManager.lookup('FormationStore');
         var welltypeStore = Ext.StoreManager.lookup('WellTypeStore');
+        var iddbStore = Ext.StoreManager.lookup('IDDBStore');
 
         // console.log('store.proxy.url :', geolAgeStore.getProxy().url);
         // console.log('store :', geolAgeStore);
@@ -34,17 +35,17 @@ Ext.define('PWApp.view.filter.edit', {
 				height: 200,
 				width: 340,
                 bodyPadding: 5,
-	            layout: 'vbox',
+                layout: 'vbox',
                 padding: 5,
                 items: [
                     {
                         xtype: 'combo',
-                        myNameIs: 'geolAgeCombo',
-                        store: geolAgeStore,
+                        myNameIs: 'IDDBCombo',
+                        store: iddbStore,
                         queryMode: 'local',
-                        displayField: 'GEOLAGE',
-                        valueField: 'GEOLAGE',
-                        fieldLabel: 'Geol Age',
+                        displayField: 'IDDB',
+                        valueField: 'IDDB',
+                        fieldLabel: 'IDDB',
                         labelWidth:75,
                        // placeHolder:'Geologic Age',
                         width: 295

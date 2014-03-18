@@ -39,9 +39,9 @@ Ext.define('PWApp.controller.filterEditController', {
 
     var theStr = '';
 //          var myVal = Ext.ComponentQuery.query('textfield[myNameIs=cField1]')[0];
-    var  v1  = Ext.ComponentQuery.query('textfield[myNameIs=geolAgeCombo]')[0].getRawValue();
+    var  v1  = Ext.ComponentQuery.query('textfield[myNameIs=IDDBCombo]')[0].getRawValue();
     
-    var  v2  = Ext.ComponentQuery.query('[myNameIs=chemlineview1] combo[myNameIs=chemCombo]')[0].getRawValue();
+    var  v2  = Ext.ComponentQuery.query('[myNameIs=chemlineview1] combo[myNameIs=chemCombo]')[0].getValue();
     var  v3  = Ext.ComponentQuery.query('[myNameIs=chemlineview1] combo[myNameIs=mathCombo]')[0].getRawValue();
     var  v4  = Ext.ComponentQuery.query('[myNameIs=chemlineview1] textfield[myNameIs=chemText]')[0].getRawValue();
 
@@ -56,9 +56,9 @@ Ext.define('PWApp.controller.filterEditController', {
     var  v11 = Ext.ComponentQuery.query('textfield[myNameIs=formationCombo]')[0].getRawValue();
     var  v12 = Ext.ComponentQuery.query('textfield[myNameIs=welltypeCombo]')[0].getRawValue();
 
-
+//console.log('filterEditController, v2:', Ext.ComponentQuery.query('[myNameIs=chemlineview1] combo[myNameIs=chemCombo]')[0])
     if ( v1.length > 0) {
-        theStr = "GEOLAGE like '" + v1 + "'";
+        theStr = "IDDB like '" + v1 + "'";
     };
 
     if ( v11.length > 0) {
@@ -75,11 +75,13 @@ Ext.define('PWApp.controller.filterEditController', {
         theStr += "WELLTYPE like '" + v12 + "'";
     };
 
-    if ( (v2.length > 0) && (v3.length > 0) && (v4.length > 0) ) {
-        if (theStr.length > 1) {
-            theStr += ' AND ';
+    if (v2) {
+        if ( (v2.length > 0) && (v3.length > 0) && (v4.length > 0) ) {
+            if (theStr.length > 1) {
+                theStr += ' AND ';
+            }
+            theStr += v2 + " " + v3 + " " + v4 ;
         }
-        theStr += v2 + " " + v3 + " " + v4 ;
     };
 
     if ( (v5.length > 0) && (v6.length > 0) && (v7.length > 0) ) {
@@ -99,7 +101,7 @@ Ext.define('PWApp.controller.filterEditController', {
     if (theStr == '') {
         theStr = '1=1';
     };
-    console.log('mine :', theStr, 'v2.len :', v2.length, 'v3.len :', v3.length, 'v4.len :', v4.length);
+    console.log('mine :', theStr); //, 'v2.len :', v2.length, 'v3.len :', v3.length, 'v4.len :', v4.length);
 
     var map = Ext.ComponentQuery.query('agc')[0];
 
@@ -110,7 +112,7 @@ Ext.define('PWApp.controller.filterEditController', {
   formReset: function(){
 //    console.log('formReset - button clicked');
 
-    var myVal = Ext.ComponentQuery.query('textfield[myNameIs=geolAgeCombo]')[0]; 
+    var myVal = Ext.ComponentQuery.query('textfield[myNameIs=IDDBCombo]')[0]; 
     myVal.reset();                   
 
     var myVal = Ext.ComponentQuery.query('textfield[myNameIs=formationCombo]')[0]; 

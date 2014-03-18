@@ -5,26 +5,20 @@ Ext.define('PWApp.view.RecordView', {
 
     requires:[ 'Ext.layout.container.Fit' ], 
 
- //   title: 'Available samples in extent, meeting criteria. (max samples shown is 1,000)',
-
-	// layout:{
-	// 	type: 'hbox',
-	// 	pack: 'start',
-	// 	align: 'stretch'
-	// },
 	store: 'RecordStore',
 	multiSelect: true,
+
     viewConfig: {
         stripeRows: true,
         enableTextSelection: true
     },
+
     width:500,
     height:250,
 
 //    scroll: true,
-   	initComponent: function() {
-//   		console.log('RecordView initComponent');
-
+    initComponent: function() {
+//      console.log('RecordView initComponent');
         this.columns = [
             {header: 'ID',  dataIndex: 'OBJECTID',  width:70},
             {header: 'API',  dataIndex: 'API',  width:100},
