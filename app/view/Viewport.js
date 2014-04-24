@@ -9,7 +9,8 @@ Ext.define('PWApp.view.Viewport', {
 
     items: [
         {
-            xtype: 'recordview',
+            xtype: 'layout.recordview',
+            // xtype: 'panel',
             layout: 'fit',
             scroll: true,
             region: 'south',
@@ -19,7 +20,8 @@ Ext.define('PWApp.view.Viewport', {
             html: 'Stuff will go here'
         },
         {
-            xtype: 'mapview',
+//            xtype: 'panel',
+            xtype: 'layout.mapview',
             region: 'center'
         }
     ]

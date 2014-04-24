@@ -1,7 +1,7 @@
-Ext.define('PWApp.view.MapView', {
+Ext.define('PWApp.view.layout.MapView', {
 	extend: 'Ext.panel.Panel',
 
-	alias: 'widget.mapview',
+	alias: 'widget.layout.mapview',
 
     requires:[ 'Ext.layout.container.Fit' ], 
 

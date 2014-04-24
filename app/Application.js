@@ -3,23 +3,34 @@ Ext.define('PWApp.Application', {
 
     extend: 'Ext.app.Application',
 
-    stores:         [   'RecordStore',      'FieldStore', 
-                        'GeolAgeStore',     'ChemStore',
-                        'MathStore',        'StateStore',
-                        'FormationStore',   'WellTypeStore',
-                        'IDDBStore'
-                    ],
+    stores: [   
+        // 'RecordStore',      'FieldStore', 
+        // 'GeolAgeStore',     'ChemStore',
+        // 'MathStore',        'StateStore',
+        // 'FormationStore',   'WellTypeStore',
+        // 'IDDBStore',        'NullStore',
+        // 'BasinStore'
+    ],
     
-    views :         [   'MapView',          'RecordView',
-                        'filter.edit',      'filter.ChemLineView',
-                        'LegendView'                           
+    views:  [   
+        'layout.MapView',          'layout.RecordView',
+        // 'filter.edit',      'filter.ChemLineView',
+        // 'LegendView',       'filter.AllLineView',
+        // 'filter.BasinLineView'
 //                        'TestFieldView',  'StoreTestList' 
-                    ],
+    ],
 
-    controllers:    [   'MapController',    'filterEditController', 
-                        'HelpController',   'ScoreCardController', 
-                        'RecordController', 'LegendController' 
-                    ],  
+    controllers: [
+        'MapController',
+        'ScoreCardController',
+        'RecordController',   
+          
+        // 'FilterController',
+        // 'filterEditController', 
+        // 'HelpController',    
+        
+        //'LegendController' 
+    ],  
 
     launch: function() {
     }

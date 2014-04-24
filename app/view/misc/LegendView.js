@@ -56,7 +56,7 @@ Ext.define('PWApp.view.LegendView', {
         },this.getMyId());
 
         legend.startup();
-    },
+    }
 
     // items : [
     //     {

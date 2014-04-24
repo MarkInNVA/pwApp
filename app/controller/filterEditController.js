@@ -45,16 +45,20 @@ Ext.define('PWApp.controller.filterEditController', {
     var  v3  = Ext.ComponentQuery.query('[myNameIs=chemlineview1] combo[myNameIs=mathCombo]')[0].getRawValue();
     var  v4  = Ext.ComponentQuery.query('[myNameIs=chemlineview1] textfield[myNameIs=chemText]')[0].getRawValue();
 
-    var  v5  = Ext.ComponentQuery.query('[myNameIs=chemlineview2] combo[myNameIs=chemCombo]')[0].getRawValue();
+    var  v5  = Ext.ComponentQuery.query('[myNameIs=chemlineview2] combo[myNameIs=chemCombo]')[0].getValue();
     var  v6  = Ext.ComponentQuery.query('[myNameIs=chemlineview2] combo[myNameIs=mathCombo]')[0].getRawValue();
     var  v7  = Ext.ComponentQuery.query('[myNameIs=chemlineview2] textfield[myNameIs=chemText]')[0].getRawValue();
 
-    var  v8  = Ext.ComponentQuery.query('[myNameIs=chemlineview3] combo[myNameIs=chemCombo]')[0].getRawValue();
+    var  v8  = Ext.ComponentQuery.query('[myNameIs=chemlineview3] combo[myNameIs=chemCombo]')[0].getValue();
     var  v9  = Ext.ComponentQuery.query('[myNameIs=chemlineview3] combo[myNameIs=mathCombo]')[0].getRawValue();
     var  v10 = Ext.ComponentQuery.query('[myNameIs=chemlineview3] textfield[myNameIs=chemText]')[0].getRawValue();
 
     var  v11 = Ext.ComponentQuery.query('textfield[myNameIs=formationCombo]')[0].getRawValue();
-    var  v12 = Ext.ComponentQuery.query('textfield[myNameIs=welltypeCombo]')[0].getRawValue();
+//    var  v12 = Ext.ComponentQuery.query('textfield[myNameIs=welltypeCombo]')[0].getRawValue();
+    var  v12 = Ext.ComponentQuery.query('textfield[myNameIs=basinCombo]')[0].getRawValue();
+
+    var  v13 = Ext.ComponentQuery.query('[myNameIs=alllineview1] combo[myNameIs=fieldCombo]')[0].getRawValue();
+    var  v14 = Ext.ComponentQuery.query('[myNameIs=alllineview1] combo[myNameIs=nullCombo]')[0].getRawValue();
 
 //console.log('filterEditController, v2:', Ext.ComponentQuery.query('[myNameIs=chemlineview1] combo[myNameIs=chemCombo]')[0])
     if ( v1.length > 0) {
@@ -72,7 +76,14 @@ Ext.define('PWApp.controller.filterEditController', {
         if (theStr.length > 1) {
             theStr += ' AND ';
         }
-        theStr += "WELLTYPE like '" + v12 + "'";
+        theStr += "BASIN like '" + v12 + "'";
+    };
+
+    if ( v13.length > 0) {
+        if (theStr.length > 1) {
+            theStr += ' AND ';
+        }
+        theStr += v13 + " " + v14 ;
     };
 
     if (v2) {
@@ -84,19 +95,23 @@ Ext.define('PWApp.controller.filterEditController', {
         }
     };
 
-    if ( (v5.length > 0) && (v6.length > 0) && (v7.length > 0) ) {
-        if (theStr.length > 1) {
-            theStr += ' AND ';
-        }
-        theStr += v5 + " " + v6 + " " + v7 ;
-    };
+    if (v5) {
+        if ( (v5.length > 0) && (v6.length > 0) && (v7.length > 0) ) {
+            if (theStr.length > 1) {
+                theStr += ' AND ';
+            }
+            theStr += v5 + " " + v6 + " " + v7 ;
+        };
+    }
 
-    if ( (v8.length > 0) && (v9.length > 0) && (v10.length > 0) ) {
-        if (theStr.length > 1) {
-            theStr += ' AND ';
-        }
-        theStr += v8 + " " + v9 + " " + v10 ;
-    };
+    if (v8) {
+        if ( (v8.length > 0) && (v9.length > 0) && (v10.length > 0) ) {
+            if (theStr.length > 1) {
+                theStr += ' AND ';
+            }
+            theStr += v8 + " " + v9 + " " + v10 ;
+        };        
+    }
 
     if (theStr == '') {
         theStr = '1=1';
@@ -118,7 +133,10 @@ Ext.define('PWApp.controller.filterEditController', {
     var myVal = Ext.ComponentQuery.query('textfield[myNameIs=formationCombo]')[0]; 
     myVal.reset();                   
 
-    var myVal = Ext.ComponentQuery.query('textfield[myNameIs=welltypeCombo]')[0]; 
+//    var myVal = Ext.ComponentQuery.query('textfield[myNameIs=welltypeCombo]')[0]; 
+//    myVal.reset();                   
+
+    var myVal = Ext.ComponentQuery.query('textfield[myNameIs=basinCombo]')[0]; 
     myVal.reset();                   
 
     var myVal = Ext.ComponentQuery.query('textfield[myNameIs=fieldCombo]')[0]; 
@@ -153,6 +171,11 @@ Ext.define('PWApp.controller.filterEditController', {
     myVal = Ext.ComponentQuery.query('[myNameIs=chemlineview3] textfield[myNameIs=chemText]')[0]; 
     myVal.setValue(''); 
 
+    myVal = Ext.ComponentQuery.query('[myNameIs=alllineview1] combo[myNameIs=fieldCombo]')[0];
+    myVal.reset();    
+    
+    myVal = Ext.ComponentQuery.query('[myNameIs=alllineview1] combo[myNameIs=nullCombo]')[0];
+    myVal.reset();
 
     var map = Ext.ComponentQuery.query('agc')[0];
     map.processExtentOrCriteriaChange('1=1', 'filter-reset');  // everything

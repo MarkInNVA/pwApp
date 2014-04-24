@@ -28,10 +28,12 @@ Ext.define('Ext.ux.AGC', {
     myTemplate: null,
 
     recStoreConf: null,
+
     selectedPointConf: null
 	},
 
 	initComponent: function() {
+
 		dojo.require("esri.map");
     dojo.require("esri.layers.FeatureLayer");
     dojo.require("esri.layers.agstiled");
@@ -87,17 +89,18 @@ Ext.define('Ext.ux.AGC', {
 
       var template = new esri.dijit.PopupTemplate({
           title: "Well",
-          description:"ID: {OBJECTID}<BR>API: {API}" +
-          "<BR>Latitude: {LAT}<BR>Longitude: {LONG}" +
+          description:"ID USGS: {IDUSGS}<BR>API: {API}" +
+          "<BR>Latitude: {LAT:NumberFormat(digitSeparator:true, places:2)}" +
+          "<BR>Longitude: {LONG_:NumberFormat(digitSeparator:true, places:2)}" +
           "<BR>Formation :{FORMATION}<BR>Geologic Age: {GEOLAGE}" +
-          "<BR>Upper depth: {DEPTHUPPER:NumberFormat(digitSeparator:true, places:2)}" + 
-          "<BR>Lower depth: {DEPTHLOWER:NumberFormat(digitSeparator:true, places:2)}" + 
-          "<BR>TDS: {TDS:NumberFormat(digitSeparator:true, places:2)}" +
-          "<BR>Sodium: {Na:NumberFormat(digitSeparator:true, places:2)}" +
-          "<BR>Calcium: {Ca:NumberFormat(digitSeparator:true, places:2)}"+
-          "<BR>Chloride: {Cl:NumberFormat(digitSeparator:true, places:2)}" +
-          "<BR>TOC: {TOC:NumberFormat(digitSeparator:true, places:2)}" +
-          "<BR>Sample date: {DATESAMPLE}"
+          "<BR>Upper depth: {DEPTHUPPER:NumberFormat(digitSeparator:true, places:1)}" + 
+          "<BR>Lower depth: {DEPTHLOWER:NumberFormat(digitSeparator:true, places:1)}" + 
+          "<BR>TDS: {TDS:NumberFormat(digitSeparator:true, places:0)}" +
+          "<BR>Sodium: {Na:NumberFormat(digitSeparator:true, places:1)}" +
+          "<BR>Calcium: {Ca:NumberFormat(digitSeparator:true, places:1)}"+
+          "<BR>Chloride: {Cl:NumberFormat(digitSeparator:true, places:1)}" +
+          "<BR>TOC: {TOC:NumberFormat(digitSeparator:true, places:0)}" +
+          "<BR>Sample date: {DATESAMPLE:DateFormat(selector: 'date', fullYear: true)}"
       });
 
       popup = esri.dijit.Popup({
@@ -106,17 +109,11 @@ Ext.define('Ext.ux.AGC', {
 
       popup.resize(350,300); // w,h
       me.setPopup(popup);
-      var myExt = new esri.geometry.Extent(-13000000,3100000,-7700000,6300000, new esri.SpatialReference({ wkid: 102100}));
+      var myExt = new esri.geometry.Extent(-21000000,1600000,-5000000,10000000, new esri.SpatialReference({ wkid: 102100}));
 
       popup.on("selection-change", 
         me.popupSelectionChange
       );
-
-
-
-      // popup.on("set-features", function(e,f,g) {
-      //   console.log('popup, counnt:', this.count)
-      // }  );
 
       map = new esri.Map(local_id, {
         basemap: "topo", 
@@ -142,8 +139,7 @@ Ext.define('Ext.ux.AGC', {
         me.setMyTemplate(template);
         me.getTotalPointCount();
         
-        me.setRecStoreConf(Ext.StoreManager.lookup('RecordStore') );       
- //       me.fetchGeolAge();
+        me.setRecStoreConf(Ext.StoreManager.lookup('RecordStore') );    
 
         var scalebar = new esri.dijit.Scalebar({
           map: map,
@@ -163,31 +159,32 @@ Ext.define('Ext.ux.AGC', {
       map.on("layer-add-result", function (evt) {
 
         if (evt.layer.id == 'wells') {
-
-            var s = Ext.StoreManager.lookup('FieldStore');
-            s.add(evt.layer.fields);
-
+// 3/20/2014 why is this here?
+            // var s = Ext.StoreManager.lookup('FieldStore');
+            // s.add(evt.layer.fields);
+            // console.log('ready to process - map on layer-add-result')
+//
             me.processExtentOrCriteriaChange('1=1', 'map-add');
         }
       });
 
       map.on("extent-change", function(e){
-
- //       PWApp.app.fireEvent('showBusy');
         
         if (me.getCriteria() === null) {
           me.setCriteria('1=1');  // everything
         }
-//        console.log('map.on extent-change, crit :',me.getCriteria())
+//        console.log('map.on extent-change, recStoreConf :', me.getRecStoreConf())
 
-        var recStore = Ext.StoreManager.lookup('RecordStore');
-        recStore.removeAll();
-
+        // var recStore = Ext.StoreManager.lookup('RecordStore');
+        // recStore.removeAll();
+        if ( me.getRecStoreConf() ) {
+          me.getRecStoreConf().removeAll();
+        }
 
         me.processExtentOrCriteriaChange(me.getCriteria(), 'map-extent_change');
 
-        // var geo = map.extent;
-        // console.log( 'x min :', geo.xmin.toFixed(3),', y min :', geo.ymin.toFixed(3), ', x max :', geo.xmax.toFixed(3), ', y max :',geo.ymax.toFixed(3));
+        var geo = map.extent;
+        console.log( 'x min :', geo.xmin.toFixed(3),', y min :', geo.ymin.toFixed(3), ', x max :', geo.xmax.toFixed(3), ', y max :',geo.ymax.toFixed(3));
 
       });
 
@@ -205,10 +202,8 @@ Ext.define('Ext.ux.AGC', {
       });      
 
       featureLayer.on("click", function(evt){
-console.log('fl click, evt: ',evt.graphic);
-      //  me.selectGrid(evt.graphic.attributes.OBJECTID, evt.graphic.attributes.OBJECTID);
+        //console.log('fl click, evt: ',evt.graphic);
         me.selectPoint(evt.graphic);
-// select map point(s), handle selectGrid from selectPoint in case of multiple points
       });
 
 
@@ -255,21 +250,12 @@ console.log('fl click, evt: ',evt.graphic);
       var realResults = flayer.getSelectedFeatures();
       Ext.Array.each(realResults, function(name, index, resultsItSelf) {
         b.push(name.attributes);
-//      console.log('name :', name, ', index :', index );
-        // if (name.attributes.TDS === null) {
-        //   var fsNull = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, 9,
-        //           new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-        //           new dojo.Color([255,51,51]), 1.5),new dojo.Color([51,51,51,0.0]));
-        //   name.setSymbol(fsNull);
-   //       console.log(name.attributes.OBJECTID, ' :', me.getBusyConf())
-   //       me.getBusyConf().update([name.attributes.OBJECTID]);
-        // }
+
       });
 
-      var s = Ext.StoreManager.lookup('RecordStore');
-      s.removeAll();
-      //console.log('s :',s); 
-      s.add(b);
+ //     var s = Ext.StoreManager.lookup('RecordStore');
+      me.getRecStoreConf().add(b);
+ //     s.add(b);
 
     }).then( function() {
 
@@ -297,16 +283,18 @@ console.log('fl click, evt: ',evt.graphic);
     var theMap = me.getArcMap();
     var flayer = theMap.getLayer('wells');
     var clayer = theMap.getLayer('tiles');
-    var cnt;
-    if (me.getCriteria() == '1=1') {
-      cnt = me.getExtentCount();
-    } else {
-      cnt = me.getCriteriaInExtentCount();
-    }
+    // var cnt;
+
+    // if (me.getCriteria() == '1=1') {
+    //   cnt = me.getExtentCount();
+    // } else {
+    //   cnt = me.getCriteriaInExtentCount();
+    // }
 
     flayer.clear();
 //    console.log('resetMap, after clear flayer :', flayer);
     clayer.setVisibility(true);
+
     me.setMapType("Cache");    
 
     me.showNotBusy();
@@ -335,6 +323,10 @@ console.log('fl click, evt: ',evt.graphic);
       if (me.getPopup()) {
         me.getPopup().hide();
       }
+    
+      // var s = Ext.StoreManager.lookup('RecordStore');
+      // s.removeAll();
+      me.getRecStoreConf().removeAll();
 
       if (me.getCriteria() == '1=1') {  //   no criteria
 
@@ -431,47 +423,48 @@ console.log('fl click, evt: ',evt.graphic);
     var fl = myMap.getLayer("wells");
     var q = new esri.tasks.Query();
     var p = this.getPopup();
-    var m = Ext.ComponentQuery.query('agc')[0];
+//    var m = Ext.ComponentQuery.query('agc')[0];
 
     q.geometry = graphic.geometry;
 
     fl.queryFeatures(q, function(featureSet) {
-    console.log("selectPoint, featureset length :", featureSet.features.length);
+//    console.log("selectPoint, featureset length :", featureSet.features.length);
       p.setFeatures(featureSet.features);
      //p.show(pp);
     });
   },
 
-  selectPointFromGrid: function(objId) {
-    var me = this;
-    var mymap = this.getArcMap();
-    var fl = mymap.getLayer("wells");
-    var q = new esri.tasks.Query();
-    var p = this.getPopup();
+ //  selectPointFromGrid: function(objId) {
+ //    var me = this;
+ //    var mymap = this.getArcMap();
+ //    var fl = mymap.getLayer("wells");
+ //    var q = new esri.tasks.Query();
+ //    var p = this.getPopup();
 
-    q.objectIds = [objId];
+ //    q.objectIds = [objId];
 
-    fl.queryFeatures(q, function(featureSet) {
- //     console.log("selectPoint, featureset length :", featureSet.features.length,featureSet);
+ //    fl.queryFeatures(q, function(featureSet) {
+ // //     console.log("selectPoint, featureset length :", featureSet.features.length,featureSet);
  
-      var pp = new esri.geometry.Point(featureSet.features[0].geometry.x,featureSet.features[0].geometry.y,  featureSet.features[0].geometry.spatialReference);      
+ //      var pp = new esri.geometry.Point(featureSet.features[0].geometry.x,featureSet.features[0].geometry.y,  featureSet.features[0].geometry.spatialReference);      
 
-      p.setFeatures(featureSet.features);
-      p.show(pp);
-    });
-  },
+ //      p.setFeatures(featureSet.features);
+ //      p.show(pp);
+ //    });
+ //  },
 
   selectGrid: function(id) {
 
-    var pv = Ext.ComponentQuery.query('recordview')[0]; // PWApp.app.getApplication().getView('RecordView');
-//    var pv = this.getApointView();
-    var s = PWApp.app.getStore('RecordStore');
+    var pv = Ext.ComponentQuery.query('[xtype=layout.recordview]')[0]; // PWApp.app.getApplication().getView('RecordView');
 
-    var ans = s.find('OBJECTID', id);
-   console.log('selectGrid, ans: ', ans, ', id: ,', id);
-   if (ans >= 0) {
-    pv.getSelectionModel().select(ans);    
-   }
+    //var s = PWApp.app.getStore('RecordStore');
+    var s = this.getRecStoreConf();
+
+    var ans = s.find('IDUSGS', id);
+//    console.log('selectGrid, ans: ', ans, ', id: ,', id);
+    if (ans >= 0) {
+      pv.getSelectionModel().select(ans);    
+    }
   },
 
   popupSelectionChange: function(e) {
@@ -481,27 +474,25 @@ console.log('fl click, evt: ',evt.graphic);
     if (p) {
       var t = p.getSelectedFeature();
       if (t) {
-        console.log('Popup selection change id:', t );
-        m.selectGrid(t.attributes.OBJECTID);
+        //  console.log('Popup selection change id:', t );
+        m.selectGrid(t.attributes.IDUSGS);
       }
     }
   },
 
   showBusy: function() {
-//console.log('showBusy before');
+  //  console.log('showBusy before');
     Ext.MessageBox.wait('loading samples', 'Please wait', {
         interval: 300,
         increment: 5
     });    
-//console.log('showBusy after');
-
   }, 
+
   showNotBusy: function() {
-//    console.log('showNotBusy before !');
+  //  console.log('showNotBusy before !');
     if (Ext.MessageBox) {
       Ext.MessageBox.hide();
     }
-//    console.log('showNotBusy after');
-
   }
+
 });

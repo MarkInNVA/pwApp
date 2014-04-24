@@ -1,10 +1,11 @@
 Ext.define('PWApp.model.RecordModel', {
     extend: 'Ext.data.Model',
     fields: [
-        {name: 'OBJECTID', type: 'int'},  
+        {name: 'OBJECTID', type: 'int'},      
+        {name: 'IDUSGS', type: 'int'},  
         {name: 'API', type: 'string', useNull: true }, 
         {name: 'LAT', type: 'number', useNull: true },
-        {name: 'LONG', type: 'number', useNull: true },
+        {name: 'LONG_', type: 'number', useNull: true },
         {name: 'STATE', type: 'string', useNull: true }, 
         {name: 'WELLTYPE', type: 'string', useNull: true },
         {name: 'FORMATION', type: 'string', useNull: true },

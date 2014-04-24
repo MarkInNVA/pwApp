@@ -1,8 +1,8 @@
-Ext.define('PWApp.store.IDDBStore', {
+Ext.define('PWApp.store.BasinStore', {
     extend: 'Ext.data.Store',
 
     requires: [
-        'PWApp.model.IDDBModel'
+        'PWApp.model.BasinModel'
     ],
 
     constructor: function(cfg) {
@@ -11,13 +11,13 @@ Ext.define('PWApp.store.IDDBStore', {
         me.callParent([Ext.apply({
             autoLoad: true,
             autoSync: true,
-            model: 'PWApp.model.IDDBModel',
-            storeId: 'IDDBStore',
+            model: 'PWApp.model.BasinModel',
+            storeId: 'BasinStore',
             remoteFilter: true,
  //           filters: [{property: 'id', value: 1}],
             proxy: {
                 type: 'ajax',
-                url: 'getDistinct.php?field=IDDB',
+                url: 'getDistinct.php?field=BASIN',
 //                url: 'getDistinct.php',
                 reader: {
                     type: 'json',

@@ -2,47 +2,47 @@ Ext.define('PWApp.controller.RecordController', {
     extend: 'Ext.app.Controller',
     requires: [  ],
 
-    config: {
-      myMap: null,
-      myRecordView: null,
-      // myNotReadyMessage:
-      // myReadyMessage:
-    	models: [ ],
-    	stores: [ 'RecordStore' ],
-    	views : [ 'RecordView'],
+    models: [ ],
+    stores: [ 'RecordStore' ],
+
+    refs: [
+        {
+            ref: 'AGC',
+            selector: 'agc'
+        },
+        {
+            ref: 'recordView',
+            selector: '[xtype=layout.recordview]'
+        }
+
+    ],    
 
     	init : function() {
 
  //  		console.log('filterEditController : init');
 
-      this.control({
-        'viewport > recordview': {
-          render: this.onRecordViewRendered,
-          itemclick: this.onItemClicked
-        }
-      });
+        this.control({
+          '[xtype=layout.recordview]': {
+            itemclick: this.onItemClicked
+          }
+        });
 
-	   this.application.on({
-            countUpdate: this.updateCount,
-              scope: this
-      });
+  	   this.application.on({
+              countUpdate: this.updateCount,
+                scope: this
+        });
 
 
-     this.application.on({
-            haveTotalPoints: this.updateTotal,
-              scope: this
-      });
+       this.application.on({
+              haveTotalPoints: this.updateTotal,
+                scope: this
+        });
 
-		}
-	},
+		},
+
 
   onLaunch: function() {
   //  console.log('controller Main - launch');
-    //console.log('name :', this.getMyName())
-    this.setMyMap(Ext.ComponentQuery.query('agc')[0]);
-    this.setMyRecordView(Ext.ComponentQuery.query('recordview')[0])[0];
-//     console.log('MyMapCont :', mapCont.getArcMap() );
-//     console.log('MyMap :', this.getMyMap() );
   },  
 
   onRecordViewRendered: function(e)  {
@@ -51,29 +51,21 @@ Ext.define('PWApp.controller.RecordController', {
 
   onItemClicked: function(grid, record) {
     var me = this;
-    var map = this.getMyMap().getArcMap();
+    var map = this.getAGC().getArcMap();
+    var agc = this.getAGC()
 
- //   console.log('map :', map)
     var fl = map.getLayer("wells");
     var q = new esri.tasks.Query();
-    var p = this.getMyMap().getPopup();
- //   console.log('popup :', p);
+    var p = agc.getPopup();
 
-      q.objectIds = [record.data.OBJECTID];
-      console.log('objId :', record.data.OBJECTID);
-      fl.queryFeatures(q, function(featureSet) {
-//         console.log("RecordController, onItemClicked");
-        console.log("RecordController, onItemClicked, featureset length :", featureSet.features.length);
-        me.getMyMap().selectPoint(featureSet.features[0]);  
-//        featureSet.features[0].getDojoShape().moveToFront();
-        var pp = new esri.geometry.Point(featureSet.features[0].geometry.x,featureSet.features[0].geometry.y,  featureSet.features[0].geometry.spatialReference);      
+    q.objectIds = [record.data.OBJECTID];
+    fl.queryFeatures(q, function(featureSet) {
+      agc.selectPoint(featureSet.features[0]);  
+      var pp = new esri.geometry.Point(featureSet.features[0].geometry.x,featureSet.features[0].geometry.y,  featureSet.features[0].geometry.spatialReference);
 
-        p.setFeatures(featureSet.features);
-        p.show(pp);
-     }); //.then(function( pp) {
-
-/////    or do it this way
-/////    this.getMyMap().selectPointFromGrid(record.data.OBJECTID);
+      p.setFeatures(featureSet.features);
+      p.show(pp);
+    }); //.then(function( pp) {
 
   },
 
@@ -89,9 +81,9 @@ Ext.define('PWApp.controller.RecordController', {
 //    console.log('updateCount :', tc, ', ec :', ec, 'critInExtCnt :', critInExtCnt, ', crit :', crit );
     if (crit == '1=1') {
       if (ec < 1000) {
-        message =  ec + ' samples visible' 
+        message =  Ext.util.Format.number(ec, '0,0') + ' samples visible' 
       } else {
-        message = ec + ' samples visible.'         
+        message = Ext.util.Format.number(ec, '0,0') + ' samples visible.'         
         message += ' For sample details, reduce number of samples to below 1000,' 
         + ' either by applying a filter or changing map extent (pan or zoom).';
       }
@@ -100,15 +92,15 @@ Ext.define('PWApp.controller.RecordController', {
 
       
       if(critInExtCnt < 1000) {
-        message = critInExtCnt + ' samples visible'
+        message = Ext.util.Format.number(critInExtCnt, '0,0') + ' samples visible'
       } else {
-        message = critInExtCnt + ' sample visible.';  
+        message = Ext.util.Format.number(critInExtCnt, '0,0') + ' sample visible.';  
         message += ' For sample details, reduce number of samples to below 1000, ' 
         + ' either by applying a filter or changing map extent (pan or zoom).';
 
       }
     }
-    this.getMyRecordView().setTitle(message); 
+    this.getRecordView().setTitle(message); 
       
 //    console.log('RV :' , this.getView('RecordView')[0]); // this.getRecordView());
   }

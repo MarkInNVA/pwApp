@@ -43,9 +43,9 @@ Ext.define('PWApp.view.filter.edit', {
                         myNameIs: 'IDDBCombo',
                         store: iddbStore,
                         queryMode: 'local',
-                        displayField: 'IDDB',
-                        valueField: 'IDDB',
-                        fieldLabel: 'IDDB',
+                        displayField: 'name',
+                        //valueField: 'name',
+                        fieldLabel: 'ID Database',
                         labelWidth:75,
                        // placeHolder:'Geologic Age',
                         width: 295
@@ -65,45 +65,31 @@ Ext.define('PWApp.view.filter.edit', {
                         width: 295
 
                     },
-                    {
-                        xtype: 'panel',
-                //flex: 1,
-                        layout: 'hbox',
-                        border: false,
-                        //bodyPadding: 5,
-                        items: [
-                            {
-                                xtype: 'combo',
-                                myNameIs: 'welltypeCombo',
-                                store: welltypeStore,
-                                queryMode: 'local',
-                                displayField: 'name',
-                                forceSelection: false,
-                                editable: true,
-                                valueField: 'name',
-                                fieldLabel: 'Well Type',
-                                labelWidth:75,
-                                placeHolder:'Pick a value',
-                                width: 145
-                            },
-                            {   xtype: 'tbspacer', width: 10  },
-                            {
-                                xtype: 'combo',
-                                myNameIs: 'fieldCombo',
-                                store: fieldStore,
-                                queryMode: 'local',
-                                displayField: 'name',
-                                forceSelection: false,
-                                editable: true,
-                                valueField: 'name',
-                                fieldLabel: 'Demo Only',
-                                labelWidth:65,
-                                placeHolder:'Pick a value',
-                                width: 140
-                            }
+                //     {
+                //         xtype: 'panel',
+                // //flex: 1,
+                //         layout: 'hbox',
+                //         border: false,
+                //         //bodyPadding: 5,
+                //         items: [
+                //             {
+                //                 xtype: 'combo',
+                //                 myNameIs: 'welltypeCombo',
+                //                 store: welltypeStore,
+                //                 queryMode: 'local',
+                //                 displayField: 'name',
+                //                 forceSelection: false,
+                //                 editable: true,
+                //                 valueField: 'name',
+                //                 fieldLabel: 'Well Type',
+                //                 labelWidth:75,
+                //                 placeHolder:'Pick a value',
+                //                 width: 145
+                //             },
+                //             {   xtype: 'tbspacer', width: 10  },
 
-                        ]
-                    },
+                //         ]
+                //     },
                     {   xtype: 'tbspacer', height: 10  },
                 //     {
                 //         xtype: 'fieldset',
@@ -119,6 +105,14 @@ Ext.define('PWApp.view.filter.edit', {
                 //         padding: 0,
                 //         //bodyPadding: 5,
                 //         items: [
+                            {
+                                xtype: 'filter.basinlineview',
+                                myNameIs: 'basinlineview1'
+                            },
+                            {
+                                xtype: 'filter.alllineview',
+                                myNameIs: 'alllineview1'
+                            },
                             {
                                 xtype: 'filter.chemlineview',
                                 myNameIs: 'chemlineview1'

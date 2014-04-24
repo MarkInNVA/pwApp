@@ -15,7 +15,7 @@ Ext.define('PWApp.controller.ScoreCardController', {
     //		console.log('scoreCardController : init');
 
 			this.control({
-				'mapview #showScore' : {
+				'[xtype=layout.mapview] #showScore' : {
 					click: this.showScore
 				}
 			});
@@ -27,10 +27,10 @@ Ext.define('PWApp.controller.ScoreCardController', {
         	});
 
 
-
 	  		this.scoreWindow = Ext.create('Ext.window.Window', {
 	        	title : 'Scorecard',
-	        	height: 250,
+	        	alias: 'widget.scorecard',
+	        	height: 275,
 	        	width : 350,
 	        	x: 25,
 	        	y: 420,
